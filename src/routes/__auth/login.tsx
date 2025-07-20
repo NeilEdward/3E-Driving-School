@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/login-form";
+import { AuthForm } from "@/components/login-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { GalleryVerticalEnd } from "lucide-react";
 import logo from "../../assets/icons/3e_1.png";
@@ -21,7 +21,19 @@ function RouteComponent() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <AuthForm
+              title="Login to your account"
+              description="Enter your email below to login to your account"
+              buttonLabel="Login"
+              footer={
+                <div className="text-slate-700">
+                  Don&apos;t have an account?{" "}
+                  <a href="/register" className="underline underline-offset-4">
+                    Sign up
+                  </a>
+                </div>
+              }
+            />
           </div>
         </div>
       </div>
