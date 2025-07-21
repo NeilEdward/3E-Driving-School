@@ -1,8 +1,12 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "./ui/input";
+import { loginSchema, registerSchema } from "@/schema/auth.schema";
+import type { LoginFormData, RegisterFormData } from "@/types/auth.types";
 
 interface AuthFormProps extends React.ComponentProps<"form"> {
   title: string;
@@ -25,8 +29,28 @@ export function AuthForm({
   showConfirmPassword = false,
   ...props
 }: AuthFormProps) {
+  const schema = showConfirmPassword ? registerSchema : loginSchema;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData | RegisterFormData>({
+    resolver: zodResolver(schema),
+  });
+
+  const onSubmit = (data: LoginFormData | RegisterFormData) => {
+    // data includes email, password, confirmPassword (if registration)
+    console.log(data);
+  };
+
+  console.log({ errors });
+
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">{title}</h1>
         {description && (
@@ -39,6 +63,7 @@ export function AuthForm({
         <div className="grid gap-3">
           <Label htmlFor="email">Email</Label>
           <Input
+            {...register("email")}
             id="email"
             name="email"
             type="email"
@@ -58,12 +83,19 @@ export function AuthForm({
               </a>
             )}
           </div>
-          <Input id="password" name="password" type="password" required />
+          <Input
+            {...register("password")}
+            id="password"
+            name="password"
+            type="password"
+            required
+          />
         </div>
         {showConfirmPassword && (
           <div className="grid gap-3">
             <Label htmlFor="confirm-password">Confirm Password</Label>
             <Input
+              {...register("confirmPassword")}
               id="confirm-password"
               name="confirmPassword"
               type="password"
