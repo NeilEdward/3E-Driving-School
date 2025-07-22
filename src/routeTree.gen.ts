@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as SandboxRouteRouteImport } from './routes/sandbox/route'
+import { Route as _authenticatedRouteRouteImport } from './routes/__authenticated/route'
 import { Route as _authRouteRouteImport } from './routes/__auth/route'
 import { Route as _authenticatedIndexRouteImport } from './routes/__authenticated/index'
 import { Route as _authRegisterRouteImport } from './routes/__auth/register'
@@ -26,14 +27,18 @@ const SandboxRouteRoute = SandboxRouteRouteImport.update({
   path: '/sandbox',
   getParentRoute: () => rootRouteImport,
 } as any)
+const _authenticatedRouteRoute = _authenticatedRouteRouteImport.update({
+  id: '/__authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const _authRouteRoute = _authRouteRouteImport.update({
   id: '/__auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const _authenticatedIndexRoute = _authenticatedIndexRouteImport.update({
-  id: '/__authenticated/',
+  id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => _authenticatedRouteRoute,
 } as any)
 const _authRegisterRoute = _authRegisterRouteImport.update({
   id: '/register',
@@ -63,6 +68,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/__auth': typeof _authRouteRouteWithChildren
+  '/__authenticated': typeof _authenticatedRouteRouteWithChildren
   '/sandbox': typeof SandboxRouteRoute
   '/about': typeof AboutRoute
   '/__auth/login': typeof _authLoginRoute
@@ -77,6 +83,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/__auth'
+    | '/__authenticated'
     | '/sandbox'
     | '/about'
     | '/__auth/login'
@@ -86,9 +93,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   _authRouteRoute: typeof _authRouteRouteWithChildren
+  _authenticatedRouteRoute: typeof _authenticatedRouteRouteWithChildren
   SandboxRouteRoute: typeof SandboxRouteRoute
   AboutRoute: typeof AboutRoute
-  _authenticatedIndexRoute: typeof _authenticatedIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -107,6 +114,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SandboxRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/__authenticated': {
+      id: '/__authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof _authenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/__auth': {
       id: '/__auth'
       path: ''
@@ -119,7 +133,7 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof _authenticatedIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof _authenticatedRouteRoute
     }
     '/__auth/register': {
       id: '/__auth/register'
@@ -152,11 +166,22 @@ const _authRouteRouteWithChildren = _authRouteRoute._addFileChildren(
   _authRouteRouteChildren,
 )
 
+interface _authenticatedRouteRouteChildren {
+  _authenticatedIndexRoute: typeof _authenticatedIndexRoute
+}
+
+const _authenticatedRouteRouteChildren: _authenticatedRouteRouteChildren = {
+  _authenticatedIndexRoute: _authenticatedIndexRoute,
+}
+
+const _authenticatedRouteRouteWithChildren =
+  _authenticatedRouteRoute._addFileChildren(_authenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   _authRouteRoute: _authRouteRouteWithChildren,
+  _authenticatedRouteRoute: _authenticatedRouteRouteWithChildren,
   SandboxRouteRoute: SandboxRouteRoute,
   AboutRoute: AboutRoute,
-  _authenticatedIndexRoute: _authenticatedIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
