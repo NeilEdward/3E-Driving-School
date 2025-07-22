@@ -2,11 +2,19 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { Form, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
 import { loginSchema, registerSchema } from "@/schema/auth.schema";
 import type { LoginFormData, RegisterFormData } from "@/types/auth.types";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
 
 interface AuthFormProps extends React.ComponentProps<"form"> {
   title: string;
@@ -30,11 +38,7 @@ export function AuthForm({
   ...props
 }: AuthFormProps) {
   const schema = showConfirmPassword ? registerSchema : loginSchema;
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData | RegisterFormData>({
+  const form = useForm<LoginFormData | RegisterFormData>({
     resolver: zodResolver(schema),
   });
 
@@ -43,11 +47,11 @@ export function AuthForm({
     console.log(data);
   };
 
-  console.log({ errors });
+  console.log({ formState: form.formState.errors });
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={form.handleSubmit(onSubmit)}
       className={cn("flex flex-col gap-6", className)}
       {...props}
     >
@@ -63,7 +67,7 @@ export function AuthForm({
         <div className="grid gap-3">
           <Label htmlFor="email">Email</Label>
           <Input
-            {...register("email")}
+            {...form.register("email")}
             id="email"
             name="email"
             type="email"
@@ -84,7 +88,7 @@ export function AuthForm({
             )}
           </div>
           <Input
-            {...register("password")}
+            {...form.register("password")}
             id="password"
             name="password"
             type="password"
@@ -95,7 +99,7 @@ export function AuthForm({
           <div className="grid gap-3">
             <Label htmlFor="confirm-password">Confirm Password</Label>
             <Input
-              {...register("confirmPassword")}
+              {...form.register("confirmPassword")}
               id="confirm-password"
               name="confirmPassword"
               type="password"

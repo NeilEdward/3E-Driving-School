@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as SandboxRouteRouteImport } from './routes/sandbox/route'
 import { Route as _authRouteRouteImport } from './routes/__auth/route'
 import { Route as _authenticatedIndexRouteImport } from './routes/__authenticated/index'
 import { Route as _authRegisterRouteImport } from './routes/__auth/register'
@@ -18,6 +19,11 @@ import { Route as _authLoginRouteImport } from './routes/__auth/login'
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SandboxRouteRoute = SandboxRouteRouteImport.update({
+  id: '/sandbox',
+  path: '/sandbox',
   getParentRoute: () => rootRouteImport,
 } as any)
 const _authRouteRoute = _authRouteRouteImport.update({
@@ -41,12 +47,14 @@ const _authLoginRoute = _authLoginRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/sandbox': typeof SandboxRouteRoute
   '/about': typeof AboutRoute
   '/login': typeof _authLoginRoute
   '/register': typeof _authRegisterRoute
   '/': typeof _authenticatedIndexRoute
 }
 export interface FileRoutesByTo {
+  '/sandbox': typeof SandboxRouteRoute
   '/about': typeof AboutRoute
   '/login': typeof _authLoginRoute
   '/register': typeof _authRegisterRoute
@@ -55,6 +63,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/__auth': typeof _authRouteRouteWithChildren
+  '/sandbox': typeof SandboxRouteRoute
   '/about': typeof AboutRoute
   '/__auth/login': typeof _authLoginRoute
   '/__auth/register': typeof _authRegisterRoute
@@ -62,12 +71,13 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/about' | '/login' | '/register' | '/'
+  fullPaths: '/sandbox' | '/about' | '/login' | '/register' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/login' | '/register' | '/'
+  to: '/sandbox' | '/about' | '/login' | '/register' | '/'
   id:
     | '__root__'
     | '/__auth'
+    | '/sandbox'
     | '/about'
     | '/__auth/login'
     | '/__auth/register'
@@ -76,6 +86,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   _authRouteRoute: typeof _authRouteRouteWithChildren
+  SandboxRouteRoute: typeof SandboxRouteRoute
   AboutRoute: typeof AboutRoute
   _authenticatedIndexRoute: typeof _authenticatedIndexRoute
 }
@@ -87,6 +98,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sandbox': {
+      id: '/sandbox'
+      path: '/sandbox'
+      fullPath: '/sandbox'
+      preLoaderRoute: typeof SandboxRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/__auth': {
@@ -136,6 +154,7 @@ const _authRouteRouteWithChildren = _authRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   _authRouteRoute: _authRouteRouteWithChildren,
+  SandboxRouteRoute: SandboxRouteRoute,
   AboutRoute: AboutRoute,
   _authenticatedIndexRoute: _authenticatedIndexRoute,
 }
