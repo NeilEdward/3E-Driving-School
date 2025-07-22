@@ -14,6 +14,7 @@ import { Route as SandboxRouteRouteImport } from './routes/sandbox/route'
 import { Route as _authenticatedRouteRouteImport } from './routes/__authenticated/route'
 import { Route as _authRouteRouteImport } from './routes/__auth/route'
 import { Route as _authenticatedIndexRouteImport } from './routes/__authenticated/index'
+import { Route as _authenticatedMasterlistRouteImport } from './routes/__authenticated/masterlist'
 import { Route as _authRegisterRouteImport } from './routes/__auth/register'
 import { Route as _authLoginRouteImport } from './routes/__auth/login'
 
@@ -40,6 +41,12 @@ const _authenticatedIndexRoute = _authenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => _authenticatedRouteRoute,
 } as any)
+const _authenticatedMasterlistRoute =
+  _authenticatedMasterlistRouteImport.update({
+    id: '/masterlist',
+    path: '/masterlist',
+    getParentRoute: () => _authenticatedRouteRoute,
+  } as any)
 const _authRegisterRoute = _authRegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -56,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/login': typeof _authLoginRoute
   '/register': typeof _authRegisterRoute
+  '/masterlist': typeof _authenticatedMasterlistRoute
   '/': typeof _authenticatedIndexRoute
 }
 export interface FileRoutesByTo {
@@ -63,6 +71,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/login': typeof _authLoginRoute
   '/register': typeof _authRegisterRoute
+  '/masterlist': typeof _authenticatedMasterlistRoute
   '/': typeof _authenticatedIndexRoute
 }
 export interface FileRoutesById {
@@ -73,13 +82,20 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/__auth/login': typeof _authLoginRoute
   '/__auth/register': typeof _authRegisterRoute
+  '/__authenticated/masterlist': typeof _authenticatedMasterlistRoute
   '/__authenticated/': typeof _authenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/sandbox' | '/about' | '/login' | '/register' | '/'
+  fullPaths:
+    | '/sandbox'
+    | '/about'
+    | '/login'
+    | '/register'
+    | '/masterlist'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/sandbox' | '/about' | '/login' | '/register' | '/'
+  to: '/sandbox' | '/about' | '/login' | '/register' | '/masterlist' | '/'
   id:
     | '__root__'
     | '/__auth'
@@ -88,6 +104,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/__auth/login'
     | '/__auth/register'
+    | '/__authenticated/masterlist'
     | '/__authenticated/'
   fileRoutesById: FileRoutesById
 }
@@ -135,6 +152,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authenticatedIndexRouteImport
       parentRoute: typeof _authenticatedRouteRoute
     }
+    '/__authenticated/masterlist': {
+      id: '/__authenticated/masterlist'
+      path: '/masterlist'
+      fullPath: '/masterlist'
+      preLoaderRoute: typeof _authenticatedMasterlistRouteImport
+      parentRoute: typeof _authenticatedRouteRoute
+    }
     '/__auth/register': {
       id: '/__auth/register'
       path: '/register'
@@ -167,10 +191,12 @@ const _authRouteRouteWithChildren = _authRouteRoute._addFileChildren(
 )
 
 interface _authenticatedRouteRouteChildren {
+  _authenticatedMasterlistRoute: typeof _authenticatedMasterlistRoute
   _authenticatedIndexRoute: typeof _authenticatedIndexRoute
 }
 
 const _authenticatedRouteRouteChildren: _authenticatedRouteRouteChildren = {
+  _authenticatedMasterlistRoute: _authenticatedMasterlistRoute,
   _authenticatedIndexRoute: _authenticatedIndexRoute,
 }
 
