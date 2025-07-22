@@ -1,5 +1,5 @@
-import * as React from "react"
-import { GalleryVerticalEnd } from "lucide-react"
+import * as React from "react";
+import { GalleryVerticalEnd } from "lucide-react";
 
 import {
   Sidebar,
@@ -13,7 +13,9 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+
+import logo from "../assets/icons/3e_1.png";
 
 // This is sample data.
 const data = {
@@ -154,7 +156,7 @@ const data = {
       ],
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -164,12 +166,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <a href="#">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <GalleryVerticalEnd className="size-4" />
+                <div className="h-10 w-10 bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center">
+                  <img src={logo} className="size-12" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">Documentation</span>
-                  <span className="">v1.0.0</span>
+                  <span className="font-medium">3E Driving School</span>
+                  <span className="">San Jose City</span>
                 </div>
               </a>
             </SidebarMenuButton>
@@ -204,5 +206,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
