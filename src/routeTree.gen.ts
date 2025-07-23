@@ -14,9 +14,10 @@ import { Route as SandboxRouteRouteImport } from './routes/sandbox/route'
 import { Route as _authenticatedRouteRouteImport } from './routes/__authenticated/route'
 import { Route as _authRouteRouteImport } from './routes/__auth/route'
 import { Route as _authenticatedIndexRouteImport } from './routes/__authenticated/index'
-import { Route as _authenticatedMasterlistRouteImport } from './routes/__authenticated/masterlist'
 import { Route as _authRegisterRouteImport } from './routes/__auth/register'
 import { Route as _authLoginRouteImport } from './routes/__auth/login'
+import { Route as _authenticatedAdminMasterlistsBranchesRouteImport } from './routes/__authenticated/admin/masterlists/branches'
+import { Route as _authenticatedAdminOperationsStudentsRouteImport } from './routes/__authenticated/admin/_operations/students'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -41,12 +42,6 @@ const _authenticatedIndexRoute = _authenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => _authenticatedRouteRoute,
 } as any)
-const _authenticatedMasterlistRoute =
-  _authenticatedMasterlistRouteImport.update({
-    id: '/masterlist',
-    path: '/masterlist',
-    getParentRoute: () => _authenticatedRouteRoute,
-  } as any)
 const _authRegisterRoute = _authRegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -57,22 +52,36 @@ const _authLoginRoute = _authLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => _authRouteRoute,
 } as any)
+const _authenticatedAdminMasterlistsBranchesRoute =
+  _authenticatedAdminMasterlistsBranchesRouteImport.update({
+    id: '/admin/masterlists/branches',
+    path: '/admin/masterlists/branches',
+    getParentRoute: () => _authenticatedRouteRoute,
+  } as any)
+const _authenticatedAdminOperationsStudentsRoute =
+  _authenticatedAdminOperationsStudentsRouteImport.update({
+    id: '/admin/_operations/students',
+    path: '/admin/students',
+    getParentRoute: () => _authenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/sandbox': typeof SandboxRouteRoute
   '/about': typeof AboutRoute
   '/login': typeof _authLoginRoute
   '/register': typeof _authRegisterRoute
-  '/masterlist': typeof _authenticatedMasterlistRoute
   '/': typeof _authenticatedIndexRoute
+  '/admin/students': typeof _authenticatedAdminOperationsStudentsRoute
+  '/admin/masterlists/branches': typeof _authenticatedAdminMasterlistsBranchesRoute
 }
 export interface FileRoutesByTo {
   '/sandbox': typeof SandboxRouteRoute
   '/about': typeof AboutRoute
   '/login': typeof _authLoginRoute
   '/register': typeof _authRegisterRoute
-  '/masterlist': typeof _authenticatedMasterlistRoute
   '/': typeof _authenticatedIndexRoute
+  '/admin/students': typeof _authenticatedAdminOperationsStudentsRoute
+  '/admin/masterlists/branches': typeof _authenticatedAdminMasterlistsBranchesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -82,8 +91,9 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/__auth/login': typeof _authLoginRoute
   '/__auth/register': typeof _authRegisterRoute
-  '/__authenticated/masterlist': typeof _authenticatedMasterlistRoute
   '/__authenticated/': typeof _authenticatedIndexRoute
+  '/__authenticated/admin/_operations/students': typeof _authenticatedAdminOperationsStudentsRoute
+  '/__authenticated/admin/masterlists/branches': typeof _authenticatedAdminMasterlistsBranchesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -92,10 +102,18 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/register'
-    | '/masterlist'
     | '/'
+    | '/admin/students'
+    | '/admin/masterlists/branches'
   fileRoutesByTo: FileRoutesByTo
-  to: '/sandbox' | '/about' | '/login' | '/register' | '/masterlist' | '/'
+  to:
+    | '/sandbox'
+    | '/about'
+    | '/login'
+    | '/register'
+    | '/'
+    | '/admin/students'
+    | '/admin/masterlists/branches'
   id:
     | '__root__'
     | '/__auth'
@@ -104,8 +122,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/__auth/login'
     | '/__auth/register'
-    | '/__authenticated/masterlist'
     | '/__authenticated/'
+    | '/__authenticated/admin/_operations/students'
+    | '/__authenticated/admin/masterlists/branches'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -152,13 +171,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authenticatedIndexRouteImport
       parentRoute: typeof _authenticatedRouteRoute
     }
-    '/__authenticated/masterlist': {
-      id: '/__authenticated/masterlist'
-      path: '/masterlist'
-      fullPath: '/masterlist'
-      preLoaderRoute: typeof _authenticatedMasterlistRouteImport
-      parentRoute: typeof _authenticatedRouteRoute
-    }
     '/__auth/register': {
       id: '/__auth/register'
       path: '/register'
@@ -172,6 +184,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof _authLoginRouteImport
       parentRoute: typeof _authRouteRoute
+    }
+    '/__authenticated/admin/masterlists/branches': {
+      id: '/__authenticated/admin/masterlists/branches'
+      path: '/admin/masterlists/branches'
+      fullPath: '/admin/masterlists/branches'
+      preLoaderRoute: typeof _authenticatedAdminMasterlistsBranchesRouteImport
+      parentRoute: typeof _authenticatedRouteRoute
+    }
+    '/__authenticated/admin/_operations/students': {
+      id: '/__authenticated/admin/_operations/students'
+      path: '/admin/students'
+      fullPath: '/admin/students'
+      preLoaderRoute: typeof _authenticatedAdminOperationsStudentsRouteImport
+      parentRoute: typeof _authenticatedRouteRoute
     }
   }
 }
@@ -191,13 +217,17 @@ const _authRouteRouteWithChildren = _authRouteRoute._addFileChildren(
 )
 
 interface _authenticatedRouteRouteChildren {
-  _authenticatedMasterlistRoute: typeof _authenticatedMasterlistRoute
   _authenticatedIndexRoute: typeof _authenticatedIndexRoute
+  _authenticatedAdminOperationsStudentsRoute: typeof _authenticatedAdminOperationsStudentsRoute
+  _authenticatedAdminMasterlistsBranchesRoute: typeof _authenticatedAdminMasterlistsBranchesRoute
 }
 
 const _authenticatedRouteRouteChildren: _authenticatedRouteRouteChildren = {
-  _authenticatedMasterlistRoute: _authenticatedMasterlistRoute,
   _authenticatedIndexRoute: _authenticatedIndexRoute,
+  _authenticatedAdminOperationsStudentsRoute:
+    _authenticatedAdminOperationsStudentsRoute,
+  _authenticatedAdminMasterlistsBranchesRoute:
+    _authenticatedAdminMasterlistsBranchesRoute,
 }
 
 const _authenticatedRouteRouteWithChildren =

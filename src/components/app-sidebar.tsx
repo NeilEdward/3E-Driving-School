@@ -15,9 +15,10 @@ import {
 } from "@/components/ui/sidebar";
 
 import logo from "../assets/icons/3e_1.png";
+import { useLocation } from "@tanstack/react-router";
 
 // This is sample data.
-const data = {
+export const navConfig = {
   navMain: [
     {
       title: "Masterlists",
@@ -26,7 +27,6 @@ const data = {
         {
           title: "Branches",
           url: "/admin/masterlists/branches",
-          isActive: true,
         },
         {
           title: "Instructors",
@@ -82,6 +82,12 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const location = useLocation();
+
+  const isNavBtnActive = (url: string): boolean => {
+    return location.pathname === url;
+  };
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -104,7 +110,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {data.navMain.map((item) => (
+            {navConfig.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
                   <a href={item.url} className="font-medium">
@@ -115,7 +121,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <SidebarMenuSub>
                     {item.items.map((item) => (
                       <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={item?.isActive}>
+                        <SidebarMenuSubButton
+                          asChild
+                          isActive={isNavBtnActive(item.url)}
+                        >
                           <a href={item.url}>{item.title}</a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
