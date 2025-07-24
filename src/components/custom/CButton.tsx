@@ -1,16 +1,15 @@
 import React from "react";
 import { Button } from "../ui/button";
 
-type CButtonProps = {
+type CButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   label: string;
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => unknown;
 };
 
-const CButton = ({ label, onClick }: CButtonProps) => {
+const CButton = ({ label, ...props }: CButtonProps) => {
   return (
     <Button
       className="text-amber-400 hover:bg-amber-500 hover:text-black cursor-pointer active:bg-amber-600"
-      onClick={onClick}
+      {...props}
     >
       {label}
     </Button>

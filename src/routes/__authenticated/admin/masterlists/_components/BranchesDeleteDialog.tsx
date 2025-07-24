@@ -12,13 +12,11 @@ import {
 type BranchesDeleteDialogProps = {
   branchToDeleteId: string | null;
   setBranchToDeleteId: (id: string | null) => void;
-  confirmDelete: () => void;
 };
 
 export const BranchesDeleteDialog = ({
   branchToDeleteId,
   setBranchToDeleteId,
-  confirmDelete,
 }: BranchesDeleteDialogProps) => {
   return (
     <AlertDialog
@@ -35,7 +33,11 @@ export const BranchesDeleteDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={confirmDelete}>
+          <AlertDialogAction
+            onClick={() => {
+              console.log("DELETE");
+            }}
+          >
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

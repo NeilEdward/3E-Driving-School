@@ -1,3 +1,6 @@
+import type { branchSchema } from "@/schema/branch.schema";
+import type z from "zod";
+
 // Assuming your Branch type is defined somewhere, e.g., in a types.ts file or directly here
 export type Branch = {
   id: string;
@@ -5,3 +8,5 @@ export type Branch = {
   status: "Active" | "Inactive" | "Suspended" | "Pending";
   address: string;
 };
+
+export type BranchShema = z.infer<typeof branchSchema>;
