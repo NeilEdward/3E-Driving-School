@@ -8,24 +8,10 @@ import { BranchesTable } from "./_components/BranchesTable";
 import { createBranchColumns } from "@/utils/table-columns.branches"; // Make sure the path is correct and it's .tsx
 import { branches } from "@/utils/table-data.branches"; // Your static data
 import { useState } from "react"; // Import useState for managing dialogs/state
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+
 import type { Branch } from "@/types/branch.types";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { BranchesDeleteDialog } from "./_components/BranchesDeleteDialog";
+import { BranchesEditDialog } from "./_components/BranchesEditDialog";
 
 export const Route = createFileRoute(
   "/__authenticated/admin/masterlists/branches"
@@ -90,50 +76,15 @@ function RouteComponent() {
       <BranchesTable columns={columns} data={currentBranchesData} />
 
       {/* Simplified Edit Modal/Dialog (replace with your actual modal component) */}
-      <Dialog
-        open={!!selectedBranchToEdit}
-        onOpenChange={() => setSelectedBranchToEdit(null)}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              Edit Branch: {selectedBranchToEdit?.branch}
-            </DialogTitle>
-          </DialogHeader>
-          {/* Your edit form fields would go here */}
-          <p>ID: {selectedBranchToEdit?.id}</p>
-          <p>Status: {selectedBranchToEdit?.status}</p>
-          <DialogFooter>
-            <CButton
-              label="Close"
-              onClick={() => setSelectedBranchToEdit(null)}
-            />
-            {/* Add a Save button and logic */}
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <BranchesEditDialog
+        selectedBranchToEdit={selectedBranchToEdit}
+        setSelectedBranchToEdit={setSelectedBranchToEdit}
+      />
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog
-        open={!!branchToDeleteId}
-        onOpenChange={(isOpen: boolean) => !isOpen && setBranchToDeleteId(null)}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the
-              branch.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete}>
-              Continue
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <BranchesDeleteDialog
+        {...{ branchToDeleteId, setBranchToDeleteId, confirmDelete }}
+      />
     </div>
   );
 }
