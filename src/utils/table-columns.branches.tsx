@@ -1,6 +1,7 @@
-import type { Branch } from "@/types/branch.types";
-import type { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "@/components/ui/badge";
+// src/utils/table-columns.branches.tsx (Make sure this file is .tsx)
+
+import { Badge } from "@/components/ui/badge"; // Adjust path if necessary
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,92 +9,90 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/dropdown-menu";
+import type { Branch } from "@/types/branch.types";
+import type { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
-export const columns: ColumnDef<Branch>[] = [
-  {
-    accessorKey: "branch",
-    header: "Branch",
-  },
-  {
-    accessorKey: "address",
-    header: "Address",
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => {
-      const status = row.getValue("status");
-      let variant: "default" | "secondary" | "destructive" | "outline" | null =
-        "default"; // Initialize with a default
-      let text = String(status);
-      let className: string = "";
+// Define the types for your handlers
+interface BranchColumnHandlers {
+  onEdit: (branch: Branch) => void;
+  onDelete: (branchId: string) => void;
+}
 
-      // Customize badge based on status value
-      if (status === "open") {
-        variant = "secondary";
-        className = "w-14 bg-green-200 text-green-700 capitalize";
-      } else if (status === "closed") {
-        variant = "destructive";
-        className = "w-14 bg-red-200 text-red-700 capitalize";
-      } else {
-        variant = "outline"; // Fallback for other statuses
-      }
-
-      return (
-        <Badge variant={variant} className={className}>
-          {text}
-        </Badge>
-      );
+// Export a function that creates the columns, accepting the handlers
+export const createBranchColumns = ({
+  onEdit,
+  onDelete,
+}: BranchColumnHandlers): ColumnDef<Branch>[] => {
+  return [
+    {
+      accessorKey: "branch",
+      header: "Branch Name",
+      cell: ({ row }) => <div>{row.getValue("branch")}</div>,
     },
-  },
-  {
-    id: "actions", // Unique ID for the actions column
-    header: "Actions",
-    cell: ({ row }) => {
-      const branch = row.original; // Get the full branch object for the row
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="w-40 p-4 flex flex-col gap-1 rounded bg-white shadow-md cursor-pointer"
-          >
-            <DropdownMenuLabel className="font-medium">
-              Actions
-            </DropdownMenuLabel>
-            <DropdownMenuItem
-              className="hover:bg-gray-50 active:bg-gray-100"
-              onClick={() => navigator.clipboard.writeText(branch.id)}
-            >
-              Copy Branch ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="hover:bg-gray-50 active:bg-gray-100"
-              onClick={() => {
-                console.log({ branch });
-              }}
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="hover:bg-gray-50 active:bg-gray-100"
-              onClick={() => console.log({ branch })}
-            >
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+    {
+      accessorKey: "address",
+      header: "Address",
     },
-  },
-];
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => {
+        const status = row.getValue("status");
+        let variant:
+          | "default"
+          | "secondary"
+          | "destructive"
+          | "outline"
+          | null = "default";
+        let text = String(status);
+
+        if (status === "Active") {
+          variant = "default";
+        } else if (status === "Inactive") {
+          variant = "secondary";
+        } else if (status === "Suspended") {
+          variant = "destructive";
+        } else {
+          variant = "outline";
+        }
+
+        return <Badge variant={variant}>{text}</Badge>;
+      },
+    },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const branch = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(branch.id)}
+              >
+                Copy Branch ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => onEdit(branch)}>
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onDelete(branch.id)}>
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+};
