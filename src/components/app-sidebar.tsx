@@ -17,7 +17,6 @@ import {
 import logo from "../assets/icons/3e_1.png";
 import { useLocation } from "@tanstack/react-router";
 
-// This is sample data.
 export const navConfig = {
   navMain: [
     {
