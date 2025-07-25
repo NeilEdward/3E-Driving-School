@@ -1,13 +1,27 @@
 import CButton from "@/components/custom/CButton";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { branchSchema } from "@/schema/branch.schema";
 import type { BranchesFormProps, BranchShema } from "@/types/branch.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export const BranchesFormDialog = ({ open = false, onClose, data }: BranchesFormProps) => {
   const form = useForm<BranchShema>({
@@ -34,14 +48,22 @@ export const BranchesFormDialog = ({ open = false, onClose, data }: BranchesForm
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  const onBranchFormSubmit = (data: BranchShema) => {
-    console.log({ data }, "CREATED NEW BRANCH");
-  };
-
   const onFormClose = () => {
     onClose();
     form.clearErrors();
     form.reset();
+  };
+
+  const onBranchFormSubmit = (data: BranchShema) => {
+    onFormClose();
+    console.log({ data }, "CREATED NEW BRANCH");
+    toast(`${data.branch} has been created`, {
+      description: "Sunday, December 03, 2023 at 9:00 AM",
+      action: {
+        label: "Close",
+        onClick: () => console.log("Undo"),
+      },
+    });
   };
 
   return (

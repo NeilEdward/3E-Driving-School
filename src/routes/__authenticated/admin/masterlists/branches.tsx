@@ -33,8 +33,6 @@ function RouteComponent() {
       setManageBranch((prev) => ({ ...prev, mode: BranchMode.Create, data: null, open: false })),
   });
 
-  console.log({ manageBranch });
-
   const handleEditBranch = (branch: Branch) => {
     console.log("Editing branch:", branch);
     setManageBranch((prev) => ({

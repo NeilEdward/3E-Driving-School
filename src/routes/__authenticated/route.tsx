@@ -7,14 +7,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
 import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router";
 import * as React from "react";
+import { Toaster } from "sonner";
 
 // Helper to flatten nav data and find breadcrumb path
 function findBreadcrumbPath(navMain: Array<any>, pathname: string) {
@@ -52,8 +49,7 @@ export default function AuthenticatedRouteLayout() {
 
   // Determine dynamic fallback label
   let fallbackLabel = "Dashboard";
-  const isRoot =
-    pathname === "/__authenticated" || pathname === "/__authenticated/";
+  const isRoot = pathname === "/__authenticated" || pathname === "/__authenticated/";
   if (!isRoot && breadcrumbPath.length === 0) {
     // Get last segment of path, fallback to 'Page'
     const segments = pathname.split("/").filter(Boolean);
@@ -84,9 +80,7 @@ export default function AuthenticatedRouteLayout() {
                   <React.Fragment key={item.title}>
                     <BreadcrumbItem>
                       {idx < breadcrumbPath.length - 1 ? (
-                        <BreadcrumbLink href={item.url || "#"}>
-                          {item.title}
-                        </BreadcrumbLink>
+                        <BreadcrumbLink href={item.url || "#"}>{item.title}</BreadcrumbLink>
                       ) : (
                         <BreadcrumbPage>{item.title}</BreadcrumbPage>
                       )}
@@ -100,6 +94,7 @@ export default function AuthenticatedRouteLayout() {
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
           <Outlet />
+          <Toaster />
         </div>
       </SidebarInset>
     </SidebarProvider>
