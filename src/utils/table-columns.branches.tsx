@@ -16,7 +16,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 interface BranchColumnHandlers {
   onEdit: (branch: Branch) => void;
-  onDelete: (branchId: string) => void;
+  onDelete: (branch: Branch) => void;
 }
 
 interface DropdownMenuItem {
@@ -27,10 +27,7 @@ interface DropdownMenuItem {
 }
 
 // Export a function that creates the columns, accepting the handlers
-export const createBranchColumns = ({
-  onEdit,
-  onDelete,
-}: BranchColumnHandlers): ColumnDef<Branch>[] => {
+export const createBranchColumns = ({ onEdit, onDelete }: BranchColumnHandlers): ColumnDef<Branch>[] => {
   return [
     {
       accessorKey: "branch",
@@ -46,12 +43,7 @@ export const createBranchColumns = ({
       header: "Status",
       cell: ({ row }) => {
         const status = row.getValue("status");
-        let variant:
-          | "default"
-          | "secondary"
-          | "destructive"
-          | "outline"
-          | null = "default";
+        let variant: "default" | "secondary" | "destructive" | "outline" | null = "default";
         let text = String(status);
 
         if (status === "Active") {
@@ -84,7 +76,7 @@ export const createBranchColumns = ({
           },
           {
             label: "Delete",
-            action: () => onDelete(branch.id),
+            action: () => onDelete(branch),
           },
         ];
 
@@ -100,9 +92,7 @@ export const createBranchColumns = ({
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               {dropdownMenu.map((menu, idx) => (
                 <Fragment key={menu.label}>
-                  <DropdownMenuItem onClick={menu.action}>
-                    {menu.label}
-                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={menu.action}>{menu.label}</DropdownMenuItem>
                   {idx === 0 && <DropdownMenuSeparator />}
                 </Fragment>
               ))}

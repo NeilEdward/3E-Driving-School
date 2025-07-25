@@ -9,7 +9,7 @@ import { createBranchColumns } from "@/utils/table-columns.branches"; // Make su
 import { branches } from "@/utils/table-data.branches"; // Your static data
 import { useState } from "react"; // Import useState for managing dialogs/state
 
-import type { Branch } from "@/types/branch.types";
+import type { Branch, BranchStatus } from "@/types/branch.types";
 import { BranchesDeleteDialog } from "./_components/BranchesDeleteDialog";
 import { BranchesFormDialog } from "./_components/BranchesFormDialog";
 
@@ -20,15 +20,16 @@ export const Route = createFileRoute("/__authenticated/admin/masterlists/branche
 type ManageBranch = {
   open: boolean;
   data: Branch | null;
+  status: BranchStatus;
   onClose: () => void;
 };
 
 function RouteComponent() {
-  const [branchToDeleteId, setBranchToDeleteId] = useState<string | null>(null);
   const [manageBranch, setManageBranch] = useState<ManageBranch>({
     open: false,
     data: null,
-    onClose: () => setManageBranch((prev) => ({ ...prev, data: null, open: false })),
+    status: "create",
+    onClose: () => setManageBranch((prev) => ({ ...prev, status: "create", data: null, open: false })),
   });
 
   console.log({ manageBranch });
@@ -39,12 +40,13 @@ function RouteComponent() {
       ...prev,
       data: branch,
       open: true,
+      status: "edit",
     }));
   };
 
-  const handleDeleteConfirmation = (branchId: string) => {
-    setBranchToDeleteId(branchId);
-    console.log("Confirming delete for branch ID:", branchId);
+  const handleDeleteConfirmation = (branch: Branch) => {
+    setManageBranch((prev) => ({ ...prev, status: "delete", data: branch, open: true }));
+    console.log("Confirming delete for branch ID:", branch);
   };
 
   // Call the createBranchColumns function to get the columns array,
@@ -67,8 +69,8 @@ function RouteComponent() {
       </div>
 
       <BranchesTable columns={columns} data={branches} />
-      <BranchesFormDialog open={manageBranch.open} onClose={() => manageBranch.onClose()} data={manageBranch.data} />
-      <BranchesDeleteDialog setBranchToDeleteId={setBranchToDeleteId} branchToDeleteId={branchToDeleteId} />
+      <BranchesFormDialog {...manageBranch} />
+      <BranchesDeleteDialog {...manageBranch} />
     </div>
   );
 }

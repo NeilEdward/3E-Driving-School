@@ -8,27 +8,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import type { BranchesFormProps } from "@/types/branch.types";
 
-type BranchesDeleteDialogProps = {
-  branchToDeleteId: string | null;
-  setBranchToDeleteId: (id: string | null) => void;
-};
-
-export const BranchesDeleteDialog = ({
-  branchToDeleteId,
-  setBranchToDeleteId,
-}: BranchesDeleteDialogProps) => {
+export const BranchesDeleteDialog = ({ open, onClose, status }: BranchesFormProps) => {
   return (
-    <AlertDialog
-      open={!!branchToDeleteId}
-      onOpenChange={(isOpen: boolean) => !isOpen && setBranchToDeleteId(null)}
-    >
+    <AlertDialog open={open && status === "delete"} onOpenChange={(isOpen: boolean) => !isOpen && onClose()}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            branch.
+            This action cannot be undone. This will permanently delete the branch.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

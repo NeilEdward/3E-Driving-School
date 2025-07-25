@@ -10,3 +10,12 @@ export type Branch = {
 };
 
 export type BranchShema = z.infer<typeof branchSchema>;
+
+export type BranchStatus = "edit" | "create" | "delete";
+
+export type BranchesFormProps = {
+  open: boolean;
+  data: Branch | null;
+  status: BranchStatus;
+  onClose: () => void;
+};

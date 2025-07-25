@@ -4,17 +4,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { branchSchema } from "@/schema/branch.schema";
-import type { Branch, BranchShema } from "@/types/branch.types";
+import type { BranchesFormProps, BranchShema } from "@/types/branch.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-type BranchesFormDialogProps = {
-  open: boolean;
-  data: Branch | null;
-  onClose: () => void;
-};
-export const BranchesFormDialog = ({ open = false, onClose, data }: BranchesFormDialogProps) => {
+export const BranchesFormDialog = ({ open = false, onClose, data, status }: BranchesFormProps) => {
   const form = useForm<BranchShema>({
     resolver: zodResolver(branchSchema),
     defaultValues: {
@@ -51,7 +46,7 @@ export const BranchesFormDialog = ({ open = false, onClose, data }: BranchesForm
   };
 
   return (
-    <Dialog open={open} onOpenChange={onFormClose}>
+    <Dialog open={open && (status === "edit" || status === "create")} onOpenChange={onFormClose}>
       <DialogContent>
         <Form {...form}>
           <form className="flex flex-col gap-6" onSubmit={form.handleSubmit(onBranchFormSubmit)}>
