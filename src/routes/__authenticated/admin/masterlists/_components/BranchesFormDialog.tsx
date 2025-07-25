@@ -1,20 +1,7 @@
 import CButton from "@/components/custom/CButton";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { branchSchema } from "@/schema/branch.schema";
 import type { Branch, BranchShema } from "@/types/branch.types";
@@ -26,14 +13,8 @@ type BranchesFormDialogProps = {
   open: boolean;
   data: Branch | null;
   onClose: () => void;
-  clearData: () => void;
 };
-export const BranchesFormDialog = ({
-  open = false,
-  onClose,
-  data,
-  clearData,
-}: BranchesFormDialogProps) => {
+export const BranchesFormDialog = ({ open = false, onClose, data }: BranchesFormDialogProps) => {
   const form = useForm<BranchShema>({
     resolver: zodResolver(branchSchema),
     defaultValues: {
@@ -54,7 +35,6 @@ export const BranchesFormDialog = ({
         branch: "",
         address: "",
       });
-      clearData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
@@ -65,7 +45,7 @@ export const BranchesFormDialog = ({
 
   const onFormClose = () => {
     onClose();
-    clearData();
+
     form.clearErrors();
     form.reset();
   };
@@ -74,10 +54,7 @@ export const BranchesFormDialog = ({
     <Dialog open={open} onOpenChange={onFormClose}>
       <DialogContent>
         <Form {...form}>
-          <form
-            className="flex flex-col gap-6"
-            onSubmit={form.handleSubmit(onBranchFormSubmit)}
-          >
+          <form className="flex flex-col gap-6" onSubmit={form.handleSubmit(onBranchFormSubmit)}>
             <DialogHeader>
               <DialogTitle>Create New Branch</DialogTitle>
             </DialogHeader>
@@ -103,10 +80,7 @@ export const BranchesFormDialog = ({
                 <FormItem>
                   <FormLabel>Branch Address</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="San Jose City, Nueva Ecija"
-                      {...field}
-                    />
+                    <Input placeholder="San Jose City, Nueva Ecija" {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -116,18 +90,10 @@ export const BranchesFormDialog = ({
           </form>
 
           <DialogFooter>
-            <Button
-              variant="outline"
-              className="cursor-pointer"
-              onClick={onFormClose}
-            >
+            <Button variant="outline" className="cursor-pointer" onClick={onFormClose}>
               Cancel
             </Button>
-            <CButton
-              type="submit"
-              label="Submit"
-              onClick={form.handleSubmit(onBranchFormSubmit)}
-            />
+            <CButton type="submit" label="Submit" onClick={form.handleSubmit(onBranchFormSubmit)} />
           </DialogFooter>
         </Form>
       </DialogContent>

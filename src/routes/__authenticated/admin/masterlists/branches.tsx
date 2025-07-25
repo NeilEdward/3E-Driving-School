@@ -13,30 +13,38 @@ import type { Branch } from "@/types/branch.types";
 import { BranchesDeleteDialog } from "./_components/BranchesDeleteDialog";
 import { BranchesFormDialog } from "./_components/BranchesFormDialog";
 
-export const Route = createFileRoute(
-  "/__authenticated/admin/masterlists/branches"
-)({
+export const Route = createFileRoute("/__authenticated/admin/masterlists/branches")({
   component: RouteComponent,
 });
 
-function RouteComponent() {
-  const [selectedBranchToEdit, setSelectedBranchToEdit] =
-    useState<Branch | null>(null);
-  const [branchToDeleteId, setBranchToDeleteId] = useState<string | null>(null);
-  const [openBranchForm, setOpenBranchForm] = useState(false);
+type ManageBranch = {
+  open: boolean;
+  data: Branch | null;
+  onClose: () => void;
+};
 
-  // Define your handler functions within the component
+function RouteComponent() {
+  const [branchToDeleteId, setBranchToDeleteId] = useState<string | null>(null);
+  const [manageBranch, setManageBranch] = useState<ManageBranch>({
+    open: false,
+    data: null,
+    onClose: () => setManageBranch((prev) => ({ ...prev, data: null, open: false })),
+  });
+
+  console.log({ manageBranch });
+
   const handleEdit = (branch: Branch) => {
-    setOpenBranchForm((prev) => !prev);
-    setSelectedBranchToEdit(branch);
     console.log("Editing branch:", branch);
-    // You would typically open a modal/dialog here
+    setManageBranch((prev) => ({
+      ...prev,
+      data: branch,
+      open: true,
+    }));
   };
 
   const handleDeleteConfirmation = (branchId: string) => {
     setBranchToDeleteId(branchId);
     console.log("Confirming delete for branch ID:", branchId);
-    // This will open your AlertDialog
   };
 
   // Call the createBranchColumns function to get the columns array,
@@ -53,24 +61,14 @@ function RouteComponent() {
         <CButton
           label="Create"
           onClick={() => {
-            setOpenBranchForm((prev) => !prev);
+            setManageBranch((prev) => ({ ...prev, open: true }));
           }}
         />
       </div>
 
       <BranchesTable columns={columns} data={branches} />
-
-      <BranchesFormDialog
-        open={openBranchForm}
-        onClose={() => setOpenBranchForm((prev) => !prev)}
-        data={selectedBranchToEdit}
-        clearData={() => setSelectedBranchToEdit(null)}
-      />
-
-      <BranchesDeleteDialog
-        setBranchToDeleteId={setBranchToDeleteId}
-        branchToDeleteId={branchToDeleteId}
-      />
+      <BranchesFormDialog open={manageBranch.open} onClose={() => manageBranch.onClose()} data={manageBranch.data} />
+      <BranchesDeleteDialog setBranchToDeleteId={setBranchToDeleteId} branchToDeleteId={branchToDeleteId} />
     </div>
   );
 }
