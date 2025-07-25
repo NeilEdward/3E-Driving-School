@@ -1,6 +1,4 @@
-// src/utils/table-columns.branches.tsx (Make sure this file is .tsx)
-
-import { Badge } from "@/components/ui/badge"; // Adjust path if necessary
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,14 +8,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+import { Fragment } from "react/jsx-runtime";
+
 import type { Branch } from "@/types/branch.types";
 import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
 
-// Define the types for your handlers
 interface BranchColumnHandlers {
   onEdit: (branch: Branch) => void;
   onDelete: (branchId: string) => void;
+}
+
+interface DropdownMenuItem {
+  label: string;
+  icon?: React.ReactNode;
+  disabled?: boolean;
+  action: () => void;
 }
 
 // Export a function that creates the columns, accepting the handlers
@@ -67,6 +73,21 @@ export const createBranchColumns = ({
       cell: ({ row }) => {
         const branch = row.original;
 
+        const dropdownMenu: DropdownMenuItem[] = [
+          {
+            label: "Copy Branch ID",
+            action: () => navigator.clipboard.writeText(branch.id),
+          },
+          {
+            label: "Edit",
+            action: () => onEdit(branch),
+          },
+          {
+            label: "Delete",
+            action: () => onDelete(branch.id),
+          },
+        ];
+
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -77,18 +98,14 @@ export const createBranchColumns = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(branch.id)}
-              >
-                Copy Branch ID
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => onEdit(branch)}>
-                Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDelete(branch.id)}>
-                Delete
-              </DropdownMenuItem>
+              {dropdownMenu.map((menu, idx) => (
+                <Fragment key={menu.label}>
+                  <DropdownMenuItem onClick={menu.action}>
+                    {menu.label}
+                  </DropdownMenuItem>
+                  {idx === 0 && <DropdownMenuSeparator />}
+                </Fragment>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
         );
