@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import type { BranchesFormProps } from "@/types/branch.types";
 
-export const BranchesDeleteDialog = ({ open, onClose, status }: BranchesFormProps) => {
+export const BranchesDeleteDialog = ({ open, onClose }: BranchesFormProps) => {
   return (
-    <AlertDialog open={open && status === "delete"} onOpenChange={(isOpen: boolean) => !isOpen && onClose()}>
+    <AlertDialog open={open} onOpenChange={() => onClose()}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

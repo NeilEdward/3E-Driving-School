@@ -11,11 +11,15 @@ export type Branch = {
 
 export type BranchShema = z.infer<typeof branchSchema>;
 
-export type BranchStatus = "edit" | "create" | "delete";
+export enum BranchMode {
+  Create = "create",
+  Edit = "edit",
+  Delete = "delete",
+}
 
 export type BranchesFormProps = {
   open: boolean;
   data: Branch | null;
-  status: BranchStatus;
+  mode?: BranchMode;
   onClose: () => void;
 };

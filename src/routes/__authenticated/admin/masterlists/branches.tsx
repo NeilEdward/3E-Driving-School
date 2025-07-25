@@ -9,7 +9,7 @@ import { createBranchColumns } from "@/utils/table-columns.branches"; // Make su
 import { branches } from "@/utils/table-data.branches"; // Your static data
 import { useState } from "react"; // Import useState for managing dialogs/state
 
-import type { Branch, BranchStatus } from "@/types/branch.types";
+import { BranchMode, type Branch } from "@/types/branch.types";
 import { BranchesDeleteDialog } from "./_components/BranchesDeleteDialog";
 import { BranchesFormDialog } from "./_components/BranchesFormDialog";
 
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/__authenticated/admin/masterlists/branche
 type ManageBranch = {
   open: boolean;
   data: Branch | null;
-  status: BranchStatus;
+  mode: BranchMode;
   onClose: () => void;
 };
 
@@ -28,49 +28,58 @@ function RouteComponent() {
   const [manageBranch, setManageBranch] = useState<ManageBranch>({
     open: false,
     data: null,
-    status: "create",
-    onClose: () => setManageBranch((prev) => ({ ...prev, status: "create", data: null, open: false })),
+    mode: BranchMode.Create,
+    onClose: () =>
+      setManageBranch((prev) => ({ ...prev, mode: BranchMode.Create, data: null, open: false })),
   });
 
   console.log({ manageBranch });
 
-  const handleEdit = (branch: Branch) => {
+  const handleEditBranch = (branch: Branch) => {
     console.log("Editing branch:", branch);
     setManageBranch((prev) => ({
       ...prev,
       data: branch,
       open: true,
-      status: "edit",
+      mode: BranchMode.Edit,
     }));
   };
 
-  const handleDeleteConfirmation = (branch: Branch) => {
-    setManageBranch((prev) => ({ ...prev, status: "delete", data: branch, open: true }));
-    console.log("Confirming delete for branch ID:", branch);
+  const handleDeleteBranchConfirmation = (branch: Branch) => {
+    setManageBranch((prev) => ({ ...prev, mode: BranchMode.Delete, data: branch, open: true }));
+    console.log("Confirming delete for branch ID:", branch.id);
+  };
+
+  const handleCreateBranch = () => {
+    setManageBranch((prev) => ({ ...prev, open: true, mode: BranchMode.Create, data: null }));
   };
 
   // Call the createBranchColumns function to get the columns array,
   // passing your handler functions.
   const columns = createBranchColumns({
-    onEdit: handleEdit,
-    onDelete: handleDeleteConfirmation,
+    onEdit: handleEditBranch,
+    onDelete: handleDeleteBranchConfirmation,
   });
 
   return (
     <div>
       <div className="flex justify-between items-center md:justify-start md:gap-4">
         <CHeading title="Branches" />
-        <CButton
-          label="Create"
-          onClick={() => {
-            setManageBranch((prev) => ({ ...prev, open: true }));
-          }}
-        />
+        <CButton label="Create" onClick={handleCreateBranch} />
       </div>
 
       <BranchesTable columns={columns} data={branches} />
-      <BranchesFormDialog {...manageBranch} />
-      <BranchesDeleteDialog {...manageBranch} />
+      <BranchesFormDialog
+        open={manageBranch.open && (manageBranch.mode === "create" || manageBranch.mode === "edit")}
+        mode={manageBranch.mode}
+        data={manageBranch.data}
+        onClose={manageBranch.onClose}
+      />
+      <BranchesDeleteDialog
+        open={manageBranch.open && manageBranch.mode === "delete"}
+        data={manageBranch.data}
+        onClose={manageBranch.onClose}
+      />
     </div>
   );
 }

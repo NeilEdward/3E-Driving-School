@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-export const BranchesFormDialog = ({ open = false, onClose, data, status }: BranchesFormProps) => {
+export const BranchesFormDialog = ({ open = false, onClose, data }: BranchesFormProps) => {
   const form = useForm<BranchShema>({
     resolver: zodResolver(branchSchema),
     defaultValues: {
@@ -40,13 +40,12 @@ export const BranchesFormDialog = ({ open = false, onClose, data, status }: Bran
 
   const onFormClose = () => {
     onClose();
-
     form.clearErrors();
     form.reset();
   };
 
   return (
-    <Dialog open={open && (status === "edit" || status === "create")} onOpenChange={onFormClose}>
+    <Dialog open={open} onOpenChange={onFormClose}>
       <DialogContent>
         <Form {...form}>
           <form className="flex flex-col gap-6" onSubmit={form.handleSubmit(onBranchFormSubmit)}>
