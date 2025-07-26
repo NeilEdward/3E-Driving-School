@@ -2,16 +2,17 @@
 
 import CButton from "@/components/custom/CButton";
 import CHeading from "@/components/custom/CHeading";
-import { createFileRoute } from "@tanstack/react-router";
-import { BranchesTable } from "./_components/BranchesTable";
+import {createFileRoute} from "@tanstack/react-router";
+import {BranchesTable} from "./_components/BranchesTable";
 // Import the FUNCTION that creates columns
-import { createBranchColumns } from "@/utils/table-columns.branches"; // Make sure the path is correct and it's .tsx
-import { branches } from "@/utils/table-data.branches"; // Your static data
-import { useState } from "react"; // Import useState for managing dialogs/state
+import {createBranchColumns} from "@/utils/table-columns.branches"; // Make sure the path is correct and it's .tsx
+import {branches} from "@/utils/table-data.branches"; // Your static data
+import {useState} from "react"; // Import useState for managing dialogs/state
 
-import { BranchMode, type Branch } from "@/types/branch.types";
-import { BranchesDeleteDialog } from "./_components/BranchesDeleteDialog";
-import { BranchesFormDialog } from "./_components/BranchesFormDialog";
+import {BranchMode, type Branch} from "@/types/branch.types";
+import {BranchesDeleteDialog} from "./_components/BranchesDeleteDialog";
+import {BranchesFormDialog} from "./_components/BranchesFormDialog";
+import {useFetchBranchesQuery} from "@/features/masterlst/branches.masterlist.api";
 
 export const Route = createFileRoute("/__authenticated/admin/masterlists/branches")({
   component: RouteComponent,
@@ -25,12 +26,14 @@ type ManageBranch = {
 };
 
 function RouteComponent() {
+  const {data: branchesdata} = useFetchBranchesQuery({});
+
   const [manageBranch, setManageBranch] = useState<ManageBranch>({
     open: false,
     data: null,
     mode: BranchMode.Create,
     onClose: () =>
-      setManageBranch((prev) => ({ ...prev, mode: BranchMode.Create, data: null, open: false })),
+      setManageBranch((prev) => ({...prev, mode: BranchMode.Create, data: null, open: false})),
   });
 
   const handleEditBranch = (branch: Branch) => {
@@ -44,12 +47,12 @@ function RouteComponent() {
   };
 
   const handleDeleteBranchConfirmation = (branch: Branch) => {
-    setManageBranch((prev) => ({ ...prev, mode: BranchMode.Delete, data: branch, open: true }));
+    setManageBranch((prev) => ({...prev, mode: BranchMode.Delete, data: branch, open: true}));
     console.log("Confirming delete for branch ID:", branch.id);
   };
 
   const handleCreateBranch = () => {
-    setManageBranch((prev) => ({ ...prev, open: true, mode: BranchMode.Create, data: null }));
+    setManageBranch((prev) => ({...prev, open: true, mode: BranchMode.Create, data: null}));
   };
 
   // Call the createBranchColumns function to get the columns array,
