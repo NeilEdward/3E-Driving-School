@@ -7,7 +7,7 @@ import {BranchesTable} from "./_components/BranchesTable";
 // Import the FUNCTION that creates columns
 import {createBranchColumns} from "@/utils/table-columns.branches"; // Make sure the path is correct and it's .tsx
 import {branches} from "@/utils/table-data.branches"; // Your static data
-import {useState} from "react"; // Import useState for managing dialogs/state
+import {useState, useCallback, useMemo} from "react"; // Import useState for managing dialogs/state
 
 import {BranchMode, type Branch} from "@/types/branch.types";
 import {BranchesDeleteDialog} from "./_components/BranchesDeleteDialog";
@@ -26,7 +26,7 @@ type ManageBranch = {
 };
 
 function RouteComponent() {
-  const {data: branchesdata} = useFetchBranchesQuery({});
+  // const {data: branchesdata} = useFetchBranchesQuery({});
 
   const [manageBranch, setManageBranch] = useState<ManageBranch>({
     open: false,
@@ -36,7 +36,7 @@ function RouteComponent() {
       setManageBranch((prev) => ({...prev, mode: BranchMode.Create, data: null, open: false})),
   });
 
-  const handleEditBranch = (branch: Branch) => {
+  const handleEditBranch = useCallback((branch: Branch) => {
     console.log("Editing branch:", branch);
     setManageBranch((prev) => ({
       ...prev,
@@ -44,23 +44,28 @@ function RouteComponent() {
       open: true,
       mode: BranchMode.Edit,
     }));
-  };
+  }, []);
 
-  const handleDeleteBranchConfirmation = (branch: Branch) => {
+  const handleDeleteBranchConfirmation = useCallback((branch: Branch) => {
     setManageBranch((prev) => ({...prev, mode: BranchMode.Delete, data: branch, open: true}));
     console.log("Confirming delete for branch ID:", branch.id);
-  };
+  }, []);
 
-  const handleCreateBranch = () => {
+  const handleCreateBranch = useCallback(() => {
     setManageBranch((prev) => ({...prev, open: true, mode: BranchMode.Create, data: null}));
-  };
+  }, []);
 
-  // Call the createBranchColumns function to get the columns array,
-  // passing your handler functions.
-  const columns = createBranchColumns({
-    onEdit: handleEditBranch,
-    onDelete: handleDeleteBranchConfirmation,
-  });
+  // Memoize columns to prevent infinite re-renders
+  const columns = useMemo(
+    () =>
+      createBranchColumns({
+        onEdit: handleEditBranch,
+        onDelete: handleDeleteBranchConfirmation,
+      }),
+    [handleEditBranch, handleDeleteBranchConfirmation]
+  );
+
+  console.log("branch parent");
 
   return (
     <div>

@@ -1,5 +1,5 @@
 import CButton from "@/components/custom/CButton";
-import { Button } from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,23 +7,16 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { branchSchema } from "@/schema/branch.schema";
-import type { BranchesFormProps, BranchShema } from "@/types/branch.types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Input} from "@/components/ui/input";
+import {branchSchema} from "@/schema/branch.schema";
+import type {BranchesFormProps, BranchShema} from "@/types/branch.types";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useEffect} from "react";
+import {useForm} from "react-hook-form";
+import {toast} from "sonner";
 
-export const BranchesFormDialog = ({ open = false, onClose, data }: BranchesFormProps) => {
+export const BranchesFormDialog = ({open = false, onClose, data}: BranchesFormProps) => {
   const form = useForm<BranchShema>({
     resolver: zodResolver(branchSchema),
     defaultValues: {
@@ -56,7 +49,7 @@ export const BranchesFormDialog = ({ open = false, onClose, data }: BranchesForm
 
   const onBranchFormSubmit = (data: BranchShema) => {
     onFormClose();
-    console.log({ data }, "CREATED NEW BRANCH");
+    console.log({data}, "CREATED NEW BRANCH");
     toast(`${data.branch} has been created`, {
       description: "Sunday, December 03, 2023 at 9:00 AM",
       action: {
@@ -68,7 +61,7 @@ export const BranchesFormDialog = ({ open = false, onClose, data }: BranchesForm
 
   return (
     <Dialog open={open} onOpenChange={onFormClose}>
-      <DialogContent>
+      <DialogContent aria-description="Branche form">
         <Form {...form}>
           <form className="flex flex-col gap-6" onSubmit={form.handleSubmit(onBranchFormSubmit)}>
             <DialogHeader>
@@ -78,7 +71,7 @@ export const BranchesFormDialog = ({ open = false, onClose, data }: BranchesForm
             <FormField
               control={form.control}
               name="branch"
-              render={({ field }) => (
+              render={({field}) => (
                 <FormItem>
                   <FormLabel>Branch Name</FormLabel>
                   <FormControl>
@@ -92,7 +85,7 @@ export const BranchesFormDialog = ({ open = false, onClose, data }: BranchesForm
             <FormField
               control={form.control}
               name="address"
-              render={({ field }) => (
+              render={({field}) => (
                 <FormItem>
                   <FormLabel>Branch Address</FormLabel>
                   <FormControl>
