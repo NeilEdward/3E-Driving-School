@@ -60,14 +60,12 @@ export function BranchesTable<TData, TValue>({columns, data}: DataTableProps<TDa
 
   return (
     <>
-      <TabsLayout
-        tabs={tabs}
-        activeValue={filterStatus}
-        onTabChange={(value: string) => setFilterStatus(value as FilterStatus)}
-        className="my-4"
-      />
-
-      <div className="rounded-md border">
+      <div className="rounded-md mt-10 border">
+        <TabsLayout
+          tabs={tabs}
+          activeValue={filterStatus}
+          onTabChange={(value: string) => setFilterStatus(value as FilterStatus)}
+        />
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

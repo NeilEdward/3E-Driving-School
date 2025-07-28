@@ -16,7 +16,7 @@ interface TabsLayoutProps {
 
 export const TabsLayout = ({tabs, activeValue, onTabChange, className = ""}: TabsLayoutProps) => {
   return (
-    <div className={cn("flex justify-end gap-2 p-2 border-b-2 border-b-gray-200", className)}>
+    <div className={cn("flex justify-end gap-2 p-2 border-b-1 border-b-gray-300", className)}>
       {tabs.map((tab) => (
         <Button
           className="cursor-pointer border border-gray-800"
