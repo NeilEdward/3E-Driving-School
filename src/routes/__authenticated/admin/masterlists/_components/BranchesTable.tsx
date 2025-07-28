@@ -18,8 +18,9 @@ import {
 } from "@/components/ui/select";
 import {ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight} from "lucide-react";
 import {useState, useMemo} from "react";
-import {TabHeaderWithSearch} from "@/components/layout/TabsLayout";
+
 import type {Branch} from "@/types/branch.types";
+import {TabHeaderWithSearch} from "@/components/layout/TabHeaderWithSearch";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

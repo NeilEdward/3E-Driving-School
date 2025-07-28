@@ -12,11 +12,8 @@ import {useState, useCallback, useMemo} from "react"; // Import useState for man
 import {BranchMode, type Branch} from "@/types/branch.types";
 import {BranchesDeleteDialog} from "./_components/BranchesDeleteDialog";
 import {BranchesFormDialog} from "./_components/BranchesFormDialog";
-import {useFetchBranchesQuery} from "@/features/masterlst/branches.masterlist.api";
-
-export const Route = createFileRoute("/__authenticated/admin/masterlists/branches")({
-  component: RouteComponent,
-});
+import z from "zod";
+// import {useFetchBranchesQuery} from "@/features/masterlst/branches.masterlist.api";
 
 type ManageBranch = {
   open: boolean;
@@ -24,6 +21,16 @@ type ManageBranch = {
   mode: BranchMode;
   onClose: () => void;
 };
+
+export const Route = createFileRoute("/__authenticated/admin/masterlists/branches")({
+  component: RouteComponent,
+  validateSearch: z.object({
+    page: z.number().optional().default(1),
+    rows: z.number().optional().default(10),
+    filter: z.string().optional().default(""),
+    status: z.enum(["active", "inactive"]).optional().default("active"),
+  }),
+});
 
 function RouteComponent() {
   // const {data: branchesdata} = useFetchBranchesQuery({});
@@ -64,8 +71,6 @@ function RouteComponent() {
       }),
     [handleEditBranch, handleDeleteBranchConfirmation]
   );
-
-  console.log("branch parent");
 
   return (
     <div>
