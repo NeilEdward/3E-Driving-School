@@ -23,12 +23,7 @@ export const TabHeaderWithSearch = ({
   className = "",
 }: TabHeaderWithSearchProps) => {
   return (
-    <div
-      className={cn(
-        "flex flex-col md:flex-row justify-end gap-2 px-2 py-3 border-b-1 border-b-gray-300",
-        className
-      )}
-    >
+    <div className={cn("flex justify-end gap-2 px-2 py-3 border-b-1 border-b-gray-300", className)}>
       <div className="relative">
         <Input type="search" className="pl-8" />
         <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">

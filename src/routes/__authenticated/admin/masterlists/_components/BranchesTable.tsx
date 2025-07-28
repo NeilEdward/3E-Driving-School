@@ -18,8 +18,8 @@ import {
 } from "@/components/ui/select";
 import {ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight} from "lucide-react";
 import {useState, useMemo} from "react";
+import {TabHeaderWithSearch} from "@/components/layout/TabsLayout";
 import type {Branch} from "@/types/branch.types";
-import {TabsLayout} from "@/components/layout/TabsLayout";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -61,11 +61,12 @@ export function BranchesTable<TData, TValue>({columns, data}: DataTableProps<TDa
   return (
     <>
       <div className="rounded-md mt-10 border">
-        <TabsLayout
+        <TabHeaderWithSearch
           tabs={tabs}
           activeValue={filterStatus}
           onTabChange={(value: string) => setFilterStatus(value as FilterStatus)}
         />
+
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
