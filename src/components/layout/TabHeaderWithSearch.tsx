@@ -3,8 +3,9 @@ import {Button} from "../ui/button";
 import {Input} from "../ui/input";
 import {Search} from "lucide-react";
 import {useNavigate} from "@tanstack/react-router";
-import {Route as BranchRoute} from "@/routes/__authenticated/admin/masterlists/branches";
 import {useState} from "react";
+import {useDebouncedCallback} from "use-debounce";
+import {Route as BranchRoute} from "@/routes/__authenticated/admin/masterlists/branches";
 
 interface Tab {
   label: string;
@@ -22,14 +23,14 @@ interface TabHeaderWithSearchProps {
 export const TabHeaderWithSearch = ({
   tabs,
   activeValue,
-  onTabChange,
   className = "",
+  onTabChange,
 }: TabHeaderWithSearchProps) => {
   const navigate = useNavigate({from: BranchRoute.fullPath});
-  const [searchValue, setSearchValue] = useState("");
+  const searchParams = BranchRoute.useSearch();
+  const [searchValue, setSearchValue] = useState(searchParams?.search ?? "");
 
   const handleChangeParams = (tab: string) => {
-    console.log({tab}, "TAB");
     navigate({
       search: (prev) => ({
         ...prev,
@@ -38,14 +39,23 @@ export const TabHeaderWithSearch = ({
     });
   };
 
+  const debouncedSearch = useDebouncedCallback((value: string): void => {
+    navigate({
+      search: (prev) => {
+        const next = {...prev};
+        if (value.trim()) {
+          next.search = value;
+        } else {
+          delete next.search;
+        }
+        return next;
+      },
+    });
+  }, 500);
+
   const handleSearchChange = (value: string) => {
     setSearchValue(value);
-    navigate({
-      search: (prev) => ({
-        ...prev,
-        filter: value,
-      }),
-    });
+    debouncedSearch(value);
   };
 
   return (

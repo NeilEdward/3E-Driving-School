@@ -27,8 +27,11 @@ export const Route = createFileRoute("/__authenticated/admin/masterlists/branche
   validateSearch: z.object({
     page: z.number().optional().default(1),
     rows: z.number().optional().default(10),
-    filter: z.string().optional().default(""),
     status: z.enum(["active", "inactive"]).optional().default("active"),
+    search: z
+      .string()
+      .optional()
+      .transform((val) => (val === "" ? undefined : val)),
   }),
 });
 
