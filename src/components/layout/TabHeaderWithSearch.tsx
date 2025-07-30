@@ -53,7 +53,7 @@ export const TabHeaderWithSearch = ({
     });
   }, 500);
 
-  const handleSearchChange = (value: string) => {
+  const handleSearchChange = (value: string): void => {
     setSearchValue(value);
     debouncedSearch(value);
   };
@@ -88,4 +88,5 @@ export const TabHeaderWithSearch = ({
       ))}
     </div>
   );
+  0;
 };

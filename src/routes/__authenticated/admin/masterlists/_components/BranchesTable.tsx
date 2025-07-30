@@ -1,5 +1,3 @@
-"use client";
-
 import {
   flexRender,
   getCoreRowModel,
@@ -21,6 +19,8 @@ import {useState, useMemo} from "react";
 
 import type {Branch} from "@/types/branch.types";
 import {TabHeaderWithSearch} from "@/components/layout/TabHeaderWithSearch";
+import {Route as BranchRoute} from "@/routes/__authenticated/admin/masterlists/branches";
+import {useNavigate} from "@tanstack/react-router";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -37,6 +37,8 @@ const tabs = [
 
 export function BranchesTable<TData, TValue>({columns, data}: DataTableProps<TData, TValue>) {
   const [filterStatus, setFilterStatus] = useState<FilterStatus>("active");
+  const navigate = useNavigate({from: BranchRoute.fullPath});
+  const searchParams = BranchRoute.useSearch();
 
   // Filter data based on status
   const filteredData = useMemo(
@@ -115,6 +117,13 @@ export function BranchesTable<TData, TValue>({columns, data}: DataTableProps<TDa
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(value) => {
                 table.setPageSize(Number(value));
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    page: 1,
+                    rows: Number(value),
+                  }),
+                });
               }}
             >
               <SelectTrigger className="h-8 w-[70px]">
@@ -136,7 +145,15 @@ export function BranchesTable<TData, TValue>({columns, data}: DataTableProps<TDa
             <Button
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex cursor-pointer"
-              onClick={() => table.setPageIndex(0)}
+              onClick={() => {
+                table.setPageIndex(0);
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    page: 1,
+                  }),
+                });
+              }}
               disabled={!table.getCanPreviousPage()}
             >
               <span className="sr-only">Go to first page</span>
@@ -145,7 +162,18 @@ export function BranchesTable<TData, TValue>({columns, data}: DataTableProps<TDa
             <Button
               variant="outline"
               className="h-8 w-8 p-0 cursor-pointer"
-              onClick={() => table.previousPage()}
+              onClick={() => {
+                table.previousPage();
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    page:
+                      table.getCanPreviousPage() && Number(searchParams.page) > 1
+                        ? Number(searchParams.page) - 1
+                        : 1,
+                  }),
+                });
+              }}
               disabled={!table.getCanPreviousPage()}
             >
               <span className="sr-only">Go to previous page</span>
@@ -154,7 +182,18 @@ export function BranchesTable<TData, TValue>({columns, data}: DataTableProps<TDa
             <Button
               variant="outline"
               className="h-8 w-8 p-0 cursor-pointer"
-              onClick={() => table.nextPage()}
+              onClick={() => {
+                table.nextPage();
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    page:
+                      table.getCanNextPage() && Number(searchParams.page) < table.getPageCount()
+                        ? Number(searchParams.page) + 1
+                        : table.getPageCount(),
+                  }),
+                });
+              }}
               disabled={!table.getCanNextPage()}
             >
               <span className="sr-only">Go to next page</span>
@@ -163,7 +202,15 @@ export function BranchesTable<TData, TValue>({columns, data}: DataTableProps<TDa
             <Button
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex cursor-pointer"
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              onClick={() => {
+                table.setPageIndex(table.getPageCount() - 1);
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    page: table.getPageCount(),
+                  }),
+                });
+              }}
               disabled={!table.getCanNextPage()}
             >
               <span className="sr-only">Go to last page</span>
