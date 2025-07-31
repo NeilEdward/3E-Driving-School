@@ -1,4 +1,4 @@
-import type { Branch } from "@/types/branch.types";
+import type {Branch} from "@/types/branch.types";
 
 export const branches: Branch[] = [
   {
@@ -11,8 +11,7 @@ export const branches: Branch[] = [
     id: "ne-002",
     branch: "San Jose City Branch",
     status: "Active",
-    address:
-      "Rizal Street, Barangay Abar 1st, San Jose City, Nueva Ecija, Philippines",
+    address: "Rizal Street, Barangay Abar 1st, San Jose City, Nueva Ecija, Philippines",
   },
   {
     id: "ne-003",
@@ -24,8 +23,7 @@ export const branches: Branch[] = [
     id: "ne-004",
     branch: "Science City of Muñoz Branch",
     status: "Active",
-    address:
-      "Maharlika Highway, Science City of Muñoz, Nueva Ecija, Philippines",
+    address: "Maharlika Highway, Science City of Muñoz, Nueva Ecija, Philippines",
   },
   {
     id: "ne-005",
@@ -38,5 +36,95 @@ export const branches: Branch[] = [
     branch: "Palayan City Branch",
     status: "Inactive",
     address: "Barangay Singalat, Palayan City, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-007",
+    branch: "Aliaga Branch",
+    status: "Active",
+    address: "Poblacion, Aliaga, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-008",
+    branch: "Guimba Branch",
+    status: "Active",
+    address: "Burgos Avenue, Guimba, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-009",
+    branch: "Pantabangan Branch",
+    status: "Inactive",
+    address: "East Poblacion, Pantabangan, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-010",
+    branch: "Lupao Branch",
+    status: "Active",
+    address: "Barangay San Pedro, Lupao, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-011",
+    branch: "Laur Branch",
+    status: "Inactive",
+    address: "Barangay San Fernando, Laur, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-012",
+    branch: "Nampicuan Branch",
+    status: "Active",
+    address: "Poblacion, Nampicuan, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-013",
+    branch: "Licab Branch",
+    status: "Active",
+    address: "San Jose, Licab, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-014",
+    branch: "Cuyapo Branch",
+    status: "Active",
+    address: "Don Tomas Maddela Street, Cuyapo, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-015",
+    branch: "Cabiao Branch",
+    status: "Inactive",
+    address: "Barangay Sta. Rita, Cabiao, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-016",
+    branch: "San Antonio Branch",
+    status: "Active",
+    address: "Poblacion, San Antonio, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-017",
+    branch: "General Natividad Branch",
+    status: "Active",
+    address: "Burgos St., General Natividad, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-018",
+    branch: "General Tinio Branch",
+    status: "Inactive",
+    address: "Barangay Pias, General Tinio, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-019",
+    branch: "Jaen Branch",
+    status: "Active",
+    address: "Barangay Sto. Tomas South, Jaen, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-020",
+    branch: "Peñaranda Branch",
+    status: "Active",
+    address: "Zone 3, Peñaranda, Nueva Ecija, Philippines",
+  },
+  {
+    id: "ne-021",
+    branch: "Zaragoza Branch",
+    status: "Inactive",
+    address: "Barangay Del Pilar, Zaragoza, Nueva Ecija, Philippines",
   },
 ];
