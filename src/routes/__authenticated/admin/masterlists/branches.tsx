@@ -13,6 +13,8 @@ import {BranchMode, type Branch} from "@/types/branch.types";
 import {BranchesDeleteDialog} from "./_components/BranchesDeleteDialog";
 import {BranchesFormDialog} from "./_components/BranchesFormDialog";
 import z from "zod";
+import {DataTable} from "@/components/layout/TableLayout";
+
 // import {useFetchBranchesQuery} from "@/features/masterlst/branches.masterlist.api";
 
 type ManageBranch = {
@@ -82,7 +84,18 @@ function RouteComponent() {
         <CButton label="Create" onClick={handleCreateBranch} />
       </div>
 
-      <BranchesTable columns={columns} data={branches} />
+      <DataTable
+        data={branches}
+        columns={columns}
+        filterKey="status"
+        tabs={[
+          {label: "Active", value: "active"},
+          {label: "Inactive", value: "inactive"},
+        ]}
+        initialTab="active"
+        route={Route}
+      />
+      {/* <BranchesTable columns={columns} data={branches} /> */}
       <BranchesFormDialog
         open={manageBranch.open && (manageBranch.mode === "create" || manageBranch.mode === "edit")}
         mode={manageBranch.mode}
