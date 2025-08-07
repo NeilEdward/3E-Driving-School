@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import logo from "../assets/icons/3e_1.png";
-import { useLocation } from "@tanstack/react-router";
+import {useLocation} from "@tanstack/react-router";
 
 export const navConfig = {
   navMain: [
@@ -80,7 +80,7 @@ export const navConfig = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation();
 
   const isNavBtnActive = (url: string): boolean => {
@@ -120,10 +120,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <SidebarMenuSub>
                     {item.items.map((item) => (
                       <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton
-                          asChild
-                          isActive={isNavBtnActive(item.url)}
-                        >
+                        <SidebarMenuSubButton asChild isActive={isNavBtnActive(item.url)}>
                           <a href={item.url}>{item.title}</a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>

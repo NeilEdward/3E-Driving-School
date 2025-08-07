@@ -34,6 +34,7 @@ export const TabHeaderWithSearch = ({
     navigate({
       search: (prev) => ({
         ...prev,
+        page: 1,
         status: tab as "active" | "inactive",
       }),
     });

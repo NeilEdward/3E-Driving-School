@@ -1,4 +1,6 @@
-import { AppSidebar, navConfig } from "@/components/app-sidebar";
+import * as React from "react";
+import {AppSidebar, navConfig} from "@/components/app-sidebar";
+import {UserAccount} from "@/components/layout/UserAccount";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,11 +9,10 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Separator } from "@radix-ui/react-separator";
-import { createFileRoute, Outlet, useRouter } from "@tanstack/react-router";
-import * as React from "react";
-import { Toaster } from "sonner";
+import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
+import {Separator} from "@radix-ui/react-separator";
+import {createFileRoute, Outlet, useRouter} from "@tanstack/react-router";
+import {Toaster} from "sonner";
 
 // Helper to flatten nav data and find breadcrumb path
 function findBreadcrumbPath(navMain: Array<any>, pathname: string) {
@@ -65,7 +66,7 @@ export default function AuthenticatedRouteLayout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b">
           <div className="flex items-center gap-2 px-3">
             <SidebarTrigger />
             <Separator orientation="vertical" className="mr-2 h-4" />
@@ -91,7 +92,10 @@ export default function AuthenticatedRouteLayout() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
+
+          <UserAccount />
         </header>
+
         <div className="flex flex-1 flex-col gap-4 p-4">
           <Outlet />
           <Toaster />
