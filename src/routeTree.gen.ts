@@ -16,6 +16,7 @@ import { Route as _authRouteRouteImport } from './routes/__auth/route'
 import { Route as _authenticatedIndexRouteImport } from './routes/__authenticated/index'
 import { Route as _authRegisterRouteImport } from './routes/__auth/register'
 import { Route as _authLoginRouteImport } from './routes/__auth/login'
+import { Route as _authenticatedDashboardIndexRouteImport } from './routes/__authenticated/dashboard/index'
 import { Route as _authenticatedAdminMasterlistsBranchesRouteImport } from './routes/__authenticated/admin/masterlists/branches'
 import { Route as _authenticatedAdminOperationsStudentsRouteImport } from './routes/__authenticated/admin/_operations/students'
 
@@ -52,6 +53,12 @@ const _authLoginRoute = _authLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => _authRouteRoute,
 } as any)
+const _authenticatedDashboardIndexRoute =
+  _authenticatedDashboardIndexRouteImport.update({
+    id: '/dashboard/',
+    path: '/dashboard/',
+    getParentRoute: () => _authenticatedRouteRoute,
+  } as any)
 const _authenticatedAdminMasterlistsBranchesRoute =
   _authenticatedAdminMasterlistsBranchesRouteImport.update({
     id: '/admin/masterlists/branches',
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof _authLoginRoute
   '/register': typeof _authRegisterRoute
   '/': typeof _authenticatedIndexRoute
+  '/dashboard': typeof _authenticatedDashboardIndexRoute
   '/admin/students': typeof _authenticatedAdminOperationsStudentsRoute
   '/admin/masterlists/branches': typeof _authenticatedAdminMasterlistsBranchesRoute
 }
@@ -80,6 +88,7 @@ export interface FileRoutesByTo {
   '/login': typeof _authLoginRoute
   '/register': typeof _authRegisterRoute
   '/': typeof _authenticatedIndexRoute
+  '/dashboard': typeof _authenticatedDashboardIndexRoute
   '/admin/students': typeof _authenticatedAdminOperationsStudentsRoute
   '/admin/masterlists/branches': typeof _authenticatedAdminMasterlistsBranchesRoute
 }
@@ -92,6 +101,7 @@ export interface FileRoutesById {
   '/__auth/login': typeof _authLoginRoute
   '/__auth/register': typeof _authRegisterRoute
   '/__authenticated/': typeof _authenticatedIndexRoute
+  '/__authenticated/dashboard/': typeof _authenticatedDashboardIndexRoute
   '/__authenticated/admin/_operations/students': typeof _authenticatedAdminOperationsStudentsRoute
   '/__authenticated/admin/masterlists/branches': typeof _authenticatedAdminMasterlistsBranchesRoute
 }
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/'
+    | '/dashboard'
     | '/admin/students'
     | '/admin/masterlists/branches'
   fileRoutesByTo: FileRoutesByTo
@@ -112,6 +123,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/'
+    | '/dashboard'
     | '/admin/students'
     | '/admin/masterlists/branches'
   id:
@@ -123,6 +135,7 @@ export interface FileRouteTypes {
     | '/__auth/login'
     | '/__auth/register'
     | '/__authenticated/'
+    | '/__authenticated/dashboard/'
     | '/__authenticated/admin/_operations/students'
     | '/__authenticated/admin/masterlists/branches'
   fileRoutesById: FileRoutesById
@@ -185,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authLoginRouteImport
       parentRoute: typeof _authRouteRoute
     }
+    '/__authenticated/dashboard/': {
+      id: '/__authenticated/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof _authenticatedDashboardIndexRouteImport
+      parentRoute: typeof _authenticatedRouteRoute
+    }
     '/__authenticated/admin/masterlists/branches': {
       id: '/__authenticated/admin/masterlists/branches'
       path: '/admin/masterlists/branches'
@@ -218,12 +238,14 @@ const _authRouteRouteWithChildren = _authRouteRoute._addFileChildren(
 
 interface _authenticatedRouteRouteChildren {
   _authenticatedIndexRoute: typeof _authenticatedIndexRoute
+  _authenticatedDashboardIndexRoute: typeof _authenticatedDashboardIndexRoute
   _authenticatedAdminOperationsStudentsRoute: typeof _authenticatedAdminOperationsStudentsRoute
   _authenticatedAdminMasterlistsBranchesRoute: typeof _authenticatedAdminMasterlistsBranchesRoute
 }
 
 const _authenticatedRouteRouteChildren: _authenticatedRouteRouteChildren = {
   _authenticatedIndexRoute: _authenticatedIndexRoute,
+  _authenticatedDashboardIndexRoute: _authenticatedDashboardIndexRoute,
   _authenticatedAdminOperationsStudentsRoute:
     _authenticatedAdminOperationsStudentsRoute,
   _authenticatedAdminMasterlistsBranchesRoute:

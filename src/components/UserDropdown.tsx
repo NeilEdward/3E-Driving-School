@@ -10,16 +10,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {useLogoutMutation} from "@/features/auth/auth.api";
+import {clearUser} from "@/features/auth/user.slice";
 import {useNavigate} from "@tanstack/react-router";
 import {User} from "lucide-react";
+import {useDispatch} from "react-redux";
 
 export default function UserDropdown() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [logout, {data: response}] = useLogoutMutation();
 
   const onLogout = (): void => {
     try {
       logout("1").unwrap();
+      dispatch(clearUser());
 
       if (response?.ok || true) {
         navigate({to: "/login"});

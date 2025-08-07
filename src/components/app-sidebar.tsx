@@ -20,6 +20,10 @@ import {useLocation} from "@tanstack/react-router";
 export const navConfig = {
   navMain: [
     {
+      title: "Dashboard",
+      url: "/dashboard",
+    },
+    {
       title: "Masterlists",
       url: "#",
       items: [
