@@ -7,10 +7,13 @@ export const adminDashboardData = {
     ltoComplianceIssues: 3,
   },
   enrollmentTrend: [
-    {month: "Apr", count: 120},
-    {month: "May", count: 185},
-    {month: "Jun", count: 202},
-    {month: "Jul", count: 247},
+    {month: "January", count: 120},
+    {month: "February", count: 385},
+    {month: "April", count: 202},
+    {month: "May", count: 547},
+    {month: "June", count: 147},
+    {month: "July", count: 247},
+    {month: "August", count: 647},
   ],
   revenuePerBranch: [
     {branch: "San Jose City", revenue: 89500},

@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  # Development environment service
+  frontend-dev:
+    # Use the same Dockerfile but build for the development target
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # This target is defined implicitly by the build stage in our Dockerfile,
+      # which includes all dev dependencies.
+      target: build
+
+    # Map port 5173 on the host to port 5173 in the container
+    ports:
+      - "5173:5173"
+
+    # Mount the local source code into the container for hot-reloading.
+    # The 'node_modules' volume is used to prevent the local node_modules
+    # from overwriting the one installed in the container, which can cause issues.
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+    # Overwrite the default CMD to run the development server with Vite
+    command: ["npm", "run", "dev", "--", "--host"]
+
+  # Production environment service
+  frontend-prod:
+    # Build the production image from the Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # By default, Docker builds the last stage, which is our Nginx serve stage.
+
+    # Map port 80 on the host to port 80 in the container
+    ports:
+      - "80:80"
