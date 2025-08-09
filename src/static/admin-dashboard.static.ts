@@ -19,6 +19,7 @@ export const adminDashboardData = {
     {branch: "San Jose City", revenue: 89500},
     {branch: "Cabanatuan", revenue: 53500},
     {branch: "Talavera", revenue: 46500},
+    {branch: "Gapan", revenue: 16500},
   ],
   latestStudents: [
     {name: "Carlos Dela Cruz", branch: "Talavera", course: "TDC", registered: "2025-08-05"},
@@ -28,5 +29,16 @@ export const adminDashboardData = {
   expiringRegistrations: [
     {plateNumber: "ABC 1234", branch: "Cabanatuan", expiry: "2025-08-10"},
     {plateNumber: "XYZ 5678", branch: "Talavera", expiry: "2025-08-15"},
+  ],
+  availableCars: [
+    {plateNumber: "DEF 3456", branch: "San Jose City", model: "Toyota Vios", status: "Available"},
+    {plateNumber: "GHI 7890", branch: "Cabanatuan", model: "Honda City", status: "Available"},
+    {
+      plateNumber: "JKL 2345",
+      branch: "Talavera",
+      model: "Mitsubishi Mirage",
+      status: "Available", // This must be exactly "Available"
+    },
+    {plateNumber: "MNO 6789", branch: "Gapan", model: "Suzuki Swift", status: "Under Maintenance"},
   ],
 };

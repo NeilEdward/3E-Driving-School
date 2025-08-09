@@ -12,33 +12,12 @@ import {
 import {ChartContainer, ChartTooltip, ChartTooltipContent} from "@/components/ui/chart";
 import {Badge} from "../ui/badge";
 import {cn} from "@/lib/utils";
-
-type StatusCountsProps = {
-  stats: {
-    totalStudents: number;
-    totalInstructors: number;
-    totalRevenueThisMonth: number;
-    pendingCertificates: number;
-  };
-};
-
-type EnrollmentTrendItem = {
-  month: string;
-  count: number;
-};
-
-type EnrollmentTrendProps = {
-  enrollmentTrend: EnrollmentTrendItem[];
-};
-
-type RevenueItem = {
-  branch: string;
-  revenue: number;
-};
-
-type BranchRevenueProps = {
-  branchRevenue: RevenueItem[];
-};
+import type {
+  AvailableCarsProps,
+  BranchRevenueProps,
+  EnrollmentTrendProps,
+  StatusCountsProps,
+} from "@/types/dashboard.types";
 
 const AdminDashboard = () => {
   const data = adminDashboardData;
@@ -50,7 +29,7 @@ const AdminDashboard = () => {
       <EnrollmentTrend enrollmentTrend={data.enrollmentTrend} />
       <div className="w-full flex flex-col lg:flex-row gap-2">
         <BranchRevenue branchRevenue={data.revenuePerBranch} />
-        <BranchRevenue branchRevenue={data.revenuePerBranch} />
+        <AvailableCars availableCars={data.availableCars} />
       </div>
     </div>
   );
@@ -176,8 +155,8 @@ function BranchRevenue({branchRevenue}: BranchRevenueProps) {
         <div className="flex flex-col gap-2">
           {branchRevenue?.map((data) => (
             <div className="w-full flex flex-row pb-2 justify-between border-b border-gray-200">
-              <p>{data.branch}</p>
-              <Badge className={cn("rounded-2xl", setBadgeBGColor(data.revenue))}>
+              <p className="text-xs">{data.branch}</p>
+              <Badge className={cn("rounded-2xl text-xs", setBadgeBGColor(data.revenue))}>
                 {data.revenue.toLocaleString("en-PH", {
                   style: "currency",
                   currency: "PHP",
@@ -191,4 +170,46 @@ function BranchRevenue({branchRevenue}: BranchRevenueProps) {
   );
 }
 
+function AvailableCars({availableCars}: AvailableCarsProps) {
+  console.log({availableCars});
+
+  const isCarAvailable = (status: string) => {
+    return status === "Available" ? true : false;
+  };
+
+  const setBadgeBGColor = (status: string) => {
+    let badgeColors;
+
+    if (isCarAvailable(status)) {
+      badgeColors = "bg-green-200 text-green-700";
+    } else {
+      badgeColors = "bg-red-300 text-red-700";
+    }
+    return badgeColors;
+  };
+
+  return (
+    <Card className="w-full h-30 overflow-y-scroll shadow-none">
+      <CardHeader>
+        <CardTitle>Vehicles</CardTitle>
+        <CardDescription>Available vehicles for all branches</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col gap-2">
+          {availableCars?.map((data) => (
+            <div className="w-full flex flex-row pb-2 justify-between border-b border-gray-200">
+              <p className="text-xs">{data.plateNumber}</p>
+              <p className="text-xs">{data.model}</p>
+              <p className="text-xs">{data.branch}</p>
+
+              <Badge className={cn("w-30 rounded-2xl text-xs", setBadgeBGColor(data.status))}>
+                {data.status}
+              </Badge>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 export default AdminDashboard;

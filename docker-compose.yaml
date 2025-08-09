@@ -30,7 +30,7 @@ services:
     # Build the production image from the Dockerfile
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfilea
       # By default, Docker builds the last stage, which is our Nginx serve stage.
 
     # Map port 80 on the host to port 80 in the container
