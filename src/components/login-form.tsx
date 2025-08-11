@@ -62,7 +62,7 @@ export function AuthForm({
 
     const userResponse = {
       id: "1",
-      name: "Neil Edward Dela Cruz Pogi",
+      name: "Neil Edward Dela Cruz",
       email: data.email,
       role: "admin",
     };
