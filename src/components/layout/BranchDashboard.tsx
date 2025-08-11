@@ -101,7 +101,7 @@ function ScheduleToday({scheduleToday}: BranchScheduleTodayProps) {
 
 function NearingCompletion({nearingCompletion}: NearingCompletionProps) {
   return (
-    <Card className="w-full border border-neutral-200 bg-white rounded-xl shadow-none">
+    <Card className="h-40 overflow-y-scroll w-full border border-neutral-200 bg-white rounded-xl shadow-none">
       <CardHeader className="pb-2 px-3 lg:px-5">
         <CardTitle className="text-lg font-semibold text-neutral-800">Nearing Completion</CardTitle>
         <CardDescription className="text-sm text-neutral-500">
@@ -145,7 +145,7 @@ function NearingCompletion({nearingCompletion}: NearingCompletionProps) {
 
 export function VehicleMaintenanceSchedule({maintenanceSchedule}: VehicleMaintenanceScheduleProps) {
   return (
-    <Card className="w-full border border-neutral-200 bg-white rounded-xl shadow-none">
+    <Card className="h-40 overflow-y-scroll w-full border border-neutral-200 bg-white rounded-xl shadow-none">
       <CardHeader className="pb-2 px-3 lg:px-5">
         <CardTitle className="text-lg font-semibold text-neutral-800">
           Vehicle Maintenance Schedule
