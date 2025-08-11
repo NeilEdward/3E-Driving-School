@@ -18,6 +18,7 @@ import type {
   EnrollmentTrendProps,
   StatusCountsProps,
 } from "@/types/dashboard.types";
+import extractLabelFromKey from "@/utils/extract-label";
 
 const AdminDashboard = () => {
   const data = adminDashboardData;
@@ -36,10 +37,6 @@ const AdminDashboard = () => {
 };
 
 function StatusCounts({stats}: StatusCountsProps) {
-  const extractLabelFromKey = (key: string) => {
-    return key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
-  };
-
   const statsArray = (Object.entries(stats) as [keyof typeof stats, number][]).map(
     ([key, value]) => ({
       key,

@@ -17,9 +17,9 @@ import { Route as _authenticatedIndexRouteImport } from './routes/__authenticate
 import { Route as _authRegisterRouteImport } from './routes/__auth/register'
 import { Route as _authLoginRouteImport } from './routes/__auth/login'
 import { Route as _authenticatedDashboardIndexRouteImport } from './routes/__authenticated/dashboard/index'
+import { Route as _authenticatedAdminMasterlistsInstructorsRouteImport } from './routes/__authenticated/admin/masterlists/instructors'
 import { Route as _authenticatedAdminMasterlistsBranchesRouteImport } from './routes/__authenticated/admin/masterlists/branches'
 import { Route as _authenticatedAdminOperationsStudentsRouteImport } from './routes/__authenticated/admin/_operations/students'
-import { Route as _authenticatedAdminMasterlistsToIndexRouteImport } from './routes/__authenticated/admin/masterlists/to/index'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -60,6 +60,12 @@ const _authenticatedDashboardIndexRoute =
     path: '/dashboard/',
     getParentRoute: () => _authenticatedRouteRoute,
   } as any)
+const _authenticatedAdminMasterlistsInstructorsRoute =
+  _authenticatedAdminMasterlistsInstructorsRouteImport.update({
+    id: '/admin/masterlists/instructors',
+    path: '/admin/masterlists/instructors',
+    getParentRoute: () => _authenticatedRouteRoute,
+  } as any)
 const _authenticatedAdminMasterlistsBranchesRoute =
   _authenticatedAdminMasterlistsBranchesRouteImport.update({
     id: '/admin/masterlists/branches',
@@ -72,12 +78,6 @@ const _authenticatedAdminOperationsStudentsRoute =
     path: '/admin/students',
     getParentRoute: () => _authenticatedRouteRoute,
   } as any)
-const _authenticatedAdminMasterlistsToIndexRoute =
-  _authenticatedAdminMasterlistsToIndexRouteImport.update({
-    id: '/admin/masterlists/to/',
-    path: '/admin/masterlists/to/',
-    getParentRoute: () => _authenticatedRouteRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/sandbox': typeof SandboxRouteRoute
@@ -88,7 +88,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof _authenticatedDashboardIndexRoute
   '/admin/students': typeof _authenticatedAdminOperationsStudentsRoute
   '/admin/masterlists/branches': typeof _authenticatedAdminMasterlistsBranchesRoute
-  '/admin/masterlists/to': typeof _authenticatedAdminMasterlistsToIndexRoute
+  '/admin/masterlists/instructors': typeof _authenticatedAdminMasterlistsInstructorsRoute
 }
 export interface FileRoutesByTo {
   '/sandbox': typeof SandboxRouteRoute
@@ -99,7 +99,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof _authenticatedDashboardIndexRoute
   '/admin/students': typeof _authenticatedAdminOperationsStudentsRoute
   '/admin/masterlists/branches': typeof _authenticatedAdminMasterlistsBranchesRoute
-  '/admin/masterlists/to': typeof _authenticatedAdminMasterlistsToIndexRoute
+  '/admin/masterlists/instructors': typeof _authenticatedAdminMasterlistsInstructorsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -113,7 +113,7 @@ export interface FileRoutesById {
   '/__authenticated/dashboard/': typeof _authenticatedDashboardIndexRoute
   '/__authenticated/admin/_operations/students': typeof _authenticatedAdminOperationsStudentsRoute
   '/__authenticated/admin/masterlists/branches': typeof _authenticatedAdminMasterlistsBranchesRoute
-  '/__authenticated/admin/masterlists/to/': typeof _authenticatedAdminMasterlistsToIndexRoute
+  '/__authenticated/admin/masterlists/instructors': typeof _authenticatedAdminMasterlistsInstructorsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -126,7 +126,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/admin/students'
     | '/admin/masterlists/branches'
-    | '/admin/masterlists/to'
+    | '/admin/masterlists/instructors'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/sandbox'
@@ -137,7 +137,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/admin/students'
     | '/admin/masterlists/branches'
-    | '/admin/masterlists/to'
+    | '/admin/masterlists/instructors'
   id:
     | '__root__'
     | '/__auth'
@@ -150,7 +150,7 @@ export interface FileRouteTypes {
     | '/__authenticated/dashboard/'
     | '/__authenticated/admin/_operations/students'
     | '/__authenticated/admin/masterlists/branches'
-    | '/__authenticated/admin/masterlists/to/'
+    | '/__authenticated/admin/masterlists/instructors'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -218,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authenticatedDashboardIndexRouteImport
       parentRoute: typeof _authenticatedRouteRoute
     }
+    '/__authenticated/admin/masterlists/instructors': {
+      id: '/__authenticated/admin/masterlists/instructors'
+      path: '/admin/masterlists/instructors'
+      fullPath: '/admin/masterlists/instructors'
+      preLoaderRoute: typeof _authenticatedAdminMasterlistsInstructorsRouteImport
+      parentRoute: typeof _authenticatedRouteRoute
+    }
     '/__authenticated/admin/masterlists/branches': {
       id: '/__authenticated/admin/masterlists/branches'
       path: '/admin/masterlists/branches'
@@ -230,13 +237,6 @@ declare module '@tanstack/react-router' {
       path: '/admin/students'
       fullPath: '/admin/students'
       preLoaderRoute: typeof _authenticatedAdminOperationsStudentsRouteImport
-      parentRoute: typeof _authenticatedRouteRoute
-    }
-    '/__authenticated/admin/masterlists/to/': {
-      id: '/__authenticated/admin/masterlists/to/'
-      path: '/admin/masterlists/to'
-      fullPath: '/admin/masterlists/to'
-      preLoaderRoute: typeof _authenticatedAdminMasterlistsToIndexRouteImport
       parentRoute: typeof _authenticatedRouteRoute
     }
   }
@@ -261,7 +261,7 @@ interface _authenticatedRouteRouteChildren {
   _authenticatedDashboardIndexRoute: typeof _authenticatedDashboardIndexRoute
   _authenticatedAdminOperationsStudentsRoute: typeof _authenticatedAdminOperationsStudentsRoute
   _authenticatedAdminMasterlistsBranchesRoute: typeof _authenticatedAdminMasterlistsBranchesRoute
-  _authenticatedAdminMasterlistsToIndexRoute: typeof _authenticatedAdminMasterlistsToIndexRoute
+  _authenticatedAdminMasterlistsInstructorsRoute: typeof _authenticatedAdminMasterlistsInstructorsRoute
 }
 
 const _authenticatedRouteRouteChildren: _authenticatedRouteRouteChildren = {
@@ -271,8 +271,8 @@ const _authenticatedRouteRouteChildren: _authenticatedRouteRouteChildren = {
     _authenticatedAdminOperationsStudentsRoute,
   _authenticatedAdminMasterlistsBranchesRoute:
     _authenticatedAdminMasterlistsBranchesRoute,
-  _authenticatedAdminMasterlistsToIndexRoute:
-    _authenticatedAdminMasterlistsToIndexRoute,
+  _authenticatedAdminMasterlistsInstructorsRoute:
+    _authenticatedAdminMasterlistsInstructorsRoute,
 }
 
 const _authenticatedRouteRouteWithChildren =
