@@ -150,8 +150,12 @@ function BranchRevenue({branchRevenue}: BranchRevenueProps) {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-2">
-          {branchRevenue?.map((data) => (
-            <div className="w-full flex flex-row pb-2 justify-between border-b border-gray-200">
+          {branchRevenue?.map((data, index) => (
+            <div
+              key={`${data.branch}-${data.revenue}-${index}`}
+              className="w-full flex flex-row pb-2 justify-between border-b border-gray-200"
+              data-branch={data.branch}
+            >
               <p className="text-xs">{data.branch}</p>
               <Badge className={cn("rounded-2xl text-xs", setBadgeBGColor(data.revenue))}>
                 {data.revenue.toLocaleString("en-PH", {
@@ -194,7 +198,10 @@ function AvailableCars({availableCars}: AvailableCarsProps) {
       <CardContent>
         <div className="flex flex-col gap-2">
           {availableCars?.map((data) => (
-            <div className="w-full flex flex-row pb-2 justify-between border-b border-gray-200">
+            <div
+              key={data.branch + data.model}
+              className="w-full flex flex-row pb-2 justify-between border-b border-gray-200"
+            >
               <p className="text-xs">{data.plateNumber}</p>
               <p className="text-xs">{data.model}</p>
               <p className="text-xs">{data.branch}</p>
