@@ -3,7 +3,7 @@
 import CButton from "@/components/custom/CButton";
 import CHeading from "@/components/custom/CHeading";
 import {createFileRoute} from "@tanstack/react-router";
-import {BranchesTable} from "./_components/BranchesTable";
+// import {BranchesTable} from "./_components/BranchesTable";
 // Import the FUNCTION that creates columns
 import {createBranchColumns} from "@/utils/table-columns.branches"; // Make sure the path is correct and it's .tsx
 import {branches} from "@/utils/table-data.branches"; // Your static data
@@ -25,7 +25,7 @@ type ManageBranch = {
 };
 
 export const Route = createFileRoute("/__authenticated/admin/masterlists/branches")({
-  component: RouteComponent,
+  component: BranchesRouteComponent,
   validateSearch: z.object({
     page: z.number().optional().default(1),
     rows: z.number().optional().default(10),
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/__authenticated/admin/masterlists/branche
   }),
 });
 
-function RouteComponent() {
+export function BranchesRouteComponent() {
   // const {data: branchesdata} = useFetchBranchesQuery({});
 
   const [manageBranch, setManageBranch] = useState<ManageBranch>({

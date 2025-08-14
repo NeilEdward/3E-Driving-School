@@ -1,5 +1,5 @@
 import {render, screen, within} from "@testing-library/react";
-import AdminDashboard from "./AdminDashboard";
+import AdminDashboard from "../components/layout/AdminDashboard";
 import {adminDashboardData} from "@/static/admin-dashboard.static";
 import {describe, expect, it, vi} from "vitest";
 

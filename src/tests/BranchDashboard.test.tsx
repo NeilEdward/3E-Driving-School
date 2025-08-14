@@ -1,5 +1,8 @@
 import {render, screen} from "@testing-library/react";
-import BranchDashboard, {NearingCompletion, VehicleMaintenanceSchedule} from "./BranchDashboard";
+import BranchDashboard, {
+  NearingCompletion,
+  VehicleMaintenanceSchedule,
+} from "../components/layout/BranchDashboard";
 import {branchDashboardData} from "@/static/branch-dashboard.static";
 import {describe, it, expect} from "vitest";
 import moment from "moment";
