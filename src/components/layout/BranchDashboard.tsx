@@ -12,7 +12,6 @@ import extractLabelFromKey from "@/utils/extract-label";
 
 const BranchDashboard = () => {
   const data = branchDashboardData;
-  console.log({branchDashboardData});
 
   return (
     <div className="w-full flex flex-col gap-2">
