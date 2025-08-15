@@ -1,18 +1,18 @@
 // src/routes/__authenticated/admin/masterlists/branches.tsx
+import z from "zod";
 
 import CButton from "@/components/custom/CButton";
 import CHeading from "@/components/custom/CHeading";
 import {createFileRoute} from "@tanstack/react-router";
 // import {BranchesTable} from "./_components/BranchesTable";
 // Import the FUNCTION that creates columns
-import {createBranchColumns} from "@/utils/table-columns.branches"; // Make sure the path is correct and it's .tsx
+import {createBranchColumns} from "@/features/masterlst/components/BranchesTableColumns"; // Make sure the path is correct and it's .tsx
 import {branches} from "@/utils/table-data.branches"; // Your static data
 import {useState, useCallback, useMemo} from "react"; // Import useState for managing dialogs/state
 
 import {BranchMode, type Branch} from "@/types/branch.types";
-import {BranchesDeleteDialog} from "./_components/BranchesDeleteDialog";
-import {BranchesFormDialog} from "./_components/BranchesFormDialog";
-import z from "zod";
+import {BranchesDeleteDialog} from "../../../../features/masterlst/components/BranchesDeleteDialog";
+import {BranchesFormDialog} from "../../../../features/masterlst/components/BranchesFormDialog";
 import {DataTable} from "@/components/layout/TableLayout";
 
 // import {useFetchBranchesQuery} from "@/features/masterlst/branches.masterlist.api";
@@ -95,7 +95,7 @@ export function BranchesRouteComponent() {
         initialTab="active"
         route={Route}
       />
-      {/* <BranchesTable columns={columns} data={branches} /> */}
+
       <BranchesFormDialog
         open={manageBranch.open && (manageBranch.mode === "create" || manageBranch.mode === "edit")}
         mode={manageBranch.mode}

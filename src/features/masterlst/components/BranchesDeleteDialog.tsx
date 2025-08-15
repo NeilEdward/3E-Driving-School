@@ -8,10 +8,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { toast } from "sonner";
-import type { BranchesFormProps } from "@/types/branch.types";
+import {toast} from "sonner";
+import type {BranchesFormProps} from "@/types/branch.types";
 
-export const BranchesDeleteDialog = ({ open, onClose, data }: BranchesFormProps) => {
+export const BranchesDeleteDialog = ({open, onClose, data}: BranchesFormProps) => {
   const handleDeleteBranch = () => {
     toast(`${data?.branch} has been deleted`, {
       description: "Sunday, December 03, 2023 at 9:00 AM",

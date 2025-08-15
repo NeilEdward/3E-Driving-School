@@ -1,4 +1,4 @@
-import {baseApi} from "../base";
+import {baseApi} from "../../base";
 import type {Branch} from "@/types/branch.types"; // adjust path as needed
 
 const BASE_ENDPOINT = "/branches";

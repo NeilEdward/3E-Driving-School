@@ -1,5 +1,5 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import {Badge} from "@/components/ui/badge";
+import {Button} from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,11 +8,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
-import { Fragment } from "react/jsx-runtime";
+import {MoreHorizontal} from "lucide-react";
+import {Fragment} from "react/jsx-runtime";
 
-import type { Branch } from "@/types/branch.types";
-import type { ColumnDef } from "@tanstack/react-table";
+import type {Branch} from "@/types/branch.types";
+import type {ColumnDef} from "@tanstack/react-table";
 
 interface BranchColumnHandlers {
   onEdit: (branch: Branch) => void;
@@ -27,12 +27,15 @@ interface DropdownMenuItem {
 }
 
 // Export a function that creates the columns, accepting the handlers
-export const createBranchColumns = ({ onEdit, onDelete }: BranchColumnHandlers): ColumnDef<Branch>[] => {
+export const createBranchColumns = ({
+  onEdit,
+  onDelete,
+}: BranchColumnHandlers): ColumnDef<Branch>[] => {
   return [
     {
       accessorKey: "branch",
       header: "Branch Name",
-      cell: ({ row }) => <div>{row.getValue("branch")}</div>,
+      cell: ({row}) => <div>{row.getValue("branch")}</div>,
     },
     {
       accessorKey: "address",
@@ -41,7 +44,7 @@ export const createBranchColumns = ({ onEdit, onDelete }: BranchColumnHandlers):
     {
       accessorKey: "status",
       header: "Status",
-      cell: ({ row }) => {
+      cell: ({row}) => {
         const status = row.getValue("status");
         let variant: "default" | "secondary" | "destructive" | "outline" | null = "default";
         let text = String(status);
@@ -62,7 +65,7 @@ export const createBranchColumns = ({ onEdit, onDelete }: BranchColumnHandlers):
     {
       id: "actions",
       header: "Actions",
-      cell: ({ row }) => {
+      cell: ({row}) => {
         const branch = row.original;
 
         const dropdownMenu: DropdownMenuItem[] = [

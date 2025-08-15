@@ -1,4 +1,4 @@
-import {BranchesFormDialog} from "@/routes/__authenticated/admin/masterlists/_components/BranchesFormDialog";
+import {BranchesFormDialog} from "@/features/masterlst/components/BranchesFormDialog";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
