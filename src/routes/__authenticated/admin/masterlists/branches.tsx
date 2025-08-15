@@ -7,7 +7,7 @@ import {createFileRoute} from "@tanstack/react-router";
 // import {BranchesTable} from "./_components/BranchesTable";
 // Import the FUNCTION that creates columns
 import {createBranchColumns} from "@/features/masterlst/components/BranchesTableColumns"; // Make sure the path is correct and it's .tsx
-import {branches} from "@/utils/table-data.branches"; // Your static data
+import {branches} from "@/static/table-data.branches.static"; // Your static data
 import {useState, useCallback, useMemo} from "react"; // Import useState for managing dialogs/state
 
 import {BranchMode, type Branch} from "@/types/branch.types";

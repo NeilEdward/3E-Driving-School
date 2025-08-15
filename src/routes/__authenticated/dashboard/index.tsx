@@ -17,7 +17,7 @@ function RouteComponent() {
   const {user} = useSelector((state: RootState) => state?.user);
   console.log({user});
 
-  const role = "instructor" as Role;
+  const role = "admin" as Role;
 
   const dashboards: Record<Role, JSX.Element> = {
     admin: <AdminDashboard />,
