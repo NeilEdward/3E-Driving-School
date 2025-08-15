@@ -1,25 +1,7 @@
 import {instructorDashboardData} from "@/static/instructor-dashboard.static";
 import extractLabelFromKey from "@/utils/extract-label";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "../ui/card";
-
-type InstructorStatusCountsProps = {
-  stats: {
-    lessonsToday: number;
-    assignedStudents: number;
-    recentAssessments: number;
-  };
-};
-
-type LessonSchedule = {
-  time: string;
-  student: string;
-  course: string;
-  location: string;
-};
-
-type LessonSchedeleProps = {
-  scheduleToday: LessonSchedule[];
-};
+import type {InstructorStatusCountsProps, LessonSchedeleProps} from "@/types/dashboard.types";
 
 const InstructorDashboard = () => {
   const data = instructorDashboardData;

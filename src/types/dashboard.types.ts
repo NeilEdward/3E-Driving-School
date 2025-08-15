@@ -77,3 +77,22 @@ export type VehicleMaintenanceItem = {
 export type VehicleMaintenanceScheduleProps = {
   maintenanceSchedule: VehicleMaintenanceItem[];
 };
+
+export type InstructorStatusCountsProps = {
+  stats: {
+    lessonsToday: number;
+    assignedStudents: number;
+    recentAssessments: number;
+  };
+};
+
+export type LessonSchedule = {
+  time: string;
+  student: string;
+  course: string;
+  location: string;
+};
+
+export type LessonSchedeleProps = {
+  scheduleToday: LessonSchedule[];
+};
